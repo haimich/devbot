@@ -4,7 +4,7 @@
     <el-row :gutter="gutter">
       <el-col :span="12" :offset="6">
         <div class="header">
-          <img class="logo" src="./assets/logo.png">
+          <img class="logo" src="./assets/snuffles_logo.png">
           <img class="snuffles" src="./assets/snuffles.png">
         </div>
       </el-col>
@@ -20,13 +20,23 @@
       </el-col>
     </el-row>
 
+    <el-row>
+      <el-col :span="12" :offset="6">&nbsp;</el-col>
+    </el-row>
+
     <el-row :gutter="gutter">
+      <el-col class="main" :span="12" :offset="6">
+        <router-view/>
+      </el-col>
+    </el-row>
+
+    <el-row>
       <el-col :span="12" :offset="6">&nbsp;</el-col>
     </el-row>
 
     <el-row :gutter="gutter">
       <el-col :span="12" :offset="6">
-        <router-view/>
+        <solr-widget></solr-widget>
       </el-col>
     </el-row>
   </div>
@@ -74,6 +84,11 @@ body {
 
 .el-menu a {
   text-decoration: none;
+}
+
+.main {
+  min-height: 50vh;
+  border-bottom: solid 1px #e6e6e6;
 }
 
 </style>

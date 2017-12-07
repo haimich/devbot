@@ -11,6 +11,17 @@
             </el-col>
           </el-row>
         </el-form-item>
+
+        <el-form-item label="Timestamp">
+          <el-row :gutter="12">
+            <el-col :span="8">
+              <el-input type="number" v-model="form.timestamp" placeholder="1512686057"></el-input>
+            </el-col>
+            <el-col :span="4">
+              <el-button type="primary" @click="decryptHash">Timestamp to Human date</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
     </el-form>
   </div>
 </template>
@@ -21,6 +32,7 @@ export default {
     return {
       form: {
         hashId: '',
+        timestamp: '',
       }
     }
   },
