@@ -1,13 +1,27 @@
 <template>
   <div id="app">
 
-    <el-container>
-      <el-header>Header</el-header>
-      <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
-    </el-container>
+    <el-row :gutter="gutter">
+      <el-col :span="12" :offset="6">
+        <div class="header">
+          <img class="logo" src="./assets/logo.png">
+          <img class="snuffles" src="./assets/snuffles.png">
+        </div>
+      </el-col>
+    </el-row>
 
-    <!--<img src="./assets/logo.png">
+    <el-row :gutter="gutter">
+      <el-col :span="12" :offset="6">
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+          <el-menu-item index="1">Misc</el-menu-item>
+          <el-menu-item index="2">Resend Messages</el-menu-item>
+          <el-menu-item index="3">Translate</el-menu-item>
+        </el-menu>
+        <div class="line"></div>
+      </el-col>
+    </el-row>
+
+    <!--
     <router-view/>-->
   </div>
 </template>
@@ -17,12 +31,38 @@ export default {
   name: 'app',
   data () {
     return {
-      radio: '1'
+      gutter: 20,
+      activeIndex: '1',
+      activeIndex2: '1'
     };
+  },
+  methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
   }
 }
 </script>
 
 <style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.logo {
+  height: 55px;
+}
+
+.snuffles {
+  height: 130px;
+}
 
 </style>
