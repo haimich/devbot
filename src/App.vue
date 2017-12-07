@@ -12,17 +12,19 @@
 
     <el-row :gutter="gutter">
       <el-col :span="12" :offset="6">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1">Misc</el-menu-item>
-          <el-menu-item index="2">Resend Messages</el-menu-item>
-          <el-menu-item index="3">Translate</el-menu-item>
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+          <el-menu-item index="1"><router-link to="/">Misc</router-link></el-menu-item>
+          <el-menu-item index="2"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
+          <el-menu-item index="3"><router-link to="/translate">Translate</router-link></el-menu-item>
         </el-menu>
-        <div class="line"></div>
       </el-col>
     </el-row>
 
-    <!--
-    <router-view/>-->
+    <el-row :gutter="gutter">
+      <el-col :span="12" :offset="6">
+        <router-view/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -37,9 +39,10 @@ export default {
     };
   },
   methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
+      //  @select="handleSelect"
+      // handleSelect(key, keyPath) {
+      //   console.log(key, keyPath);
+      // }
   }
 }
 </script>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Misc from '@/components/Misc'
+import Resend from '@/components/Resend'
 
 Vue.use(Router)
 
@@ -8,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Misc',
+      component: Misc
+    },
+    {
+      path: '/resend',
+      name: 'Resend',
+      component: Resend
     }
   ]
 })
