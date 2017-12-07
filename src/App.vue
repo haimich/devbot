@@ -21,6 +21,10 @@
     </el-row>
 
     <el-row :gutter="gutter">
+      <el-col :span="12" :offset="6">&nbsp;</el-col>
+    </el-row>
+
+    <el-row :gutter="gutter">
       <el-col :span="12" :offset="6">
         <router-view/>
       </el-col>
@@ -66,6 +70,10 @@ body {
 
 .snuffles {
   height: 130px;
+}
+
+.el-menu a {
+  text-decoration: none;
 }
 
 </style>
