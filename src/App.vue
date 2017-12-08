@@ -4,7 +4,7 @@
     <el-row :gutter="gutter">
       <el-col :span="12" :offset="6">
         <div class="header">
-          <img class="logo" src="./assets/snuffles_logo.png">
+          <h2 class="logo-text">devbot</h2>
           <img class="snuffles" src="./assets/snuffles.png">
         </div>
       </el-col>
@@ -76,6 +76,13 @@ body {
 
 .logo {
   height: 55px;
+}
+
+.logo-text {
+  font-family: 'PT Mono', monospace;
+  font-size: 44px;
+  font-weight: normal;
+  margin: 0;
 }
 
 .snuffles {
