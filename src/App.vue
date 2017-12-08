@@ -2,40 +2,40 @@
   <div id="app">
 
     <el-row :gutter="gutter">
-      <el-col :span="12" :offset="6">
+      <el-col :span="span" :offset="offset">
         <div class="header">
-          <h2 class="logo-text">devbot</h2>
+          <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
           <img class="snuffles" src="./assets/snuffles.png">
         </div>
       </el-col>
     </el-row>
 
     <el-row :gutter="gutter">
-      <el-col :span="12" :offset="6">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
-          <el-menu-item index="1"><router-link to="/">Misc</router-link></el-menu-item>
-          <el-menu-item index="2"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
-          <el-menu-item index="3"><router-link to="/translate">Translate</router-link></el-menu-item>
+      <el-col :span="span" :offset="offset">
+        <el-menu :router="true" :default-active="activeIndex" mode="horizontal">
+          <el-menu-item index=""><router-link to="/">Misc</router-link></el-menu-item>
+          <el-menu-item index="resend"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
+          <el-menu-item index="translate"><router-link to="/translate">Translate</router-link></el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
 
     <el-row>
-      <el-col :span="12" :offset="6">&nbsp;</el-col>
+      <el-col :span="span" :offset="offset">&nbsp;</el-col>
     </el-row>
 
     <el-row :gutter="gutter">
-      <el-col class="main" :span="12" :offset="6">
+      <el-col class="main" :span="span" :offset="offset">
         <router-view/>
       </el-col>
     </el-row>
 
     <el-row>
-      <el-col :span="12" :offset="6">&nbsp;</el-col>
+      <el-col :span="span" :offset="offset">&nbsp;</el-col>
     </el-row>
 
     <el-row :gutter="gutter">
-      <el-col :span="12" :offset="6">
+      <el-col :span="span" :offset="offset">
         <solr-widget></solr-widget>
       </el-col>
     </el-row>
@@ -48,6 +48,8 @@ export default {
   data () {
     return {
       gutter: 20,
+      offset: 7,
+      span: 10,
       activeIndex: '1',
       activeIndex2: '1'
     };
@@ -82,6 +84,7 @@ body {
   font-family: 'PT Mono', monospace;
   font-size: 44px;
   font-weight: normal;
+  color: #0b445e;
   margin: 0;
 }
 
