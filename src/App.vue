@@ -12,7 +12,7 @@
 
     <el-row :gutter="gutter">
       <el-col :span="span" :offset="offset">
-        <el-menu :router="true" :default-active="activeIndex" mode="horizontal">
+        <el-menu :router="true" mode="horizontal">
           <el-menu-item index=""><router-link to="/">Misc</router-link></el-menu-item>
           <el-menu-item index="resend"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
           <el-menu-item index="translate"><router-link to="/translate">Translate</router-link></el-menu-item>
@@ -50,8 +50,6 @@ export default {
       gutter: 20,
       offset: 7,
       span: 10,
-      activeIndex: '1',
-      activeIndex2: '1'
     };
   },
   methods: {
@@ -84,8 +82,12 @@ body {
   font-family: 'PT Mono', monospace;
   font-size: 44px;
   font-weight: normal;
-  color: #0b445e;
   margin: 0;
+}
+
+.logo-text a {
+  text-decoration: none;
+  color: #0b445e;
 }
 
 .snuffles {
