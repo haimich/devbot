@@ -1,8 +1,8 @@
 <template>
   <div id="app">
 
-    <el-row :gutter="gutter">
-      <el-col :span="span" :offset="offset">
+    <el-row :gutter="style.gutter">
+      <el-col :span="style.span" :offset="style.offset">
         <div class="header">
           <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
           <img class="snuffles" src="./assets/snuffles.png">
@@ -10,8 +10,8 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="gutter">
-      <el-col :span="span" :offset="offset">
+    <el-row :gutter="style.gutter">
+      <el-col :span="style.span" :offset="style.offset">
         <el-menu :router="true" mode="horizontal">
           <el-menu-item index=""><router-link to="/">Misc</router-link></el-menu-item>
           <el-menu-item index="resend"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
@@ -21,21 +21,21 @@
     </el-row>
 
     <el-row>
-      <el-col :span="span" :offset="offset">&nbsp;</el-col>
+      <el-col :span="style.span" :offset="style.offset">&nbsp;</el-col>
     </el-row>
 
-    <el-row :gutter="gutter">
-      <el-col class="main" :span="span" :offset="offset">
+    <el-row :gutter="style.gutter">
+      <el-col class="main" :span="style.span" :offset="style.offset">
         <router-view/>
       </el-col>
     </el-row>
 
     <el-row>
-      <el-col :span="span" :offset="offset">&nbsp;</el-col>
+      <el-col :span="style.span" :offset="style.offset">&nbsp;</el-col>
     </el-row>
 
-    <el-row :gutter="gutter">
-      <el-col :span="span" :offset="offset">
+    <el-row :gutter="style.gutter">
+      <el-col :span="style.span" :offset="style.offset">
         <solr-widget></solr-widget>
       </el-col>
     </el-row>
@@ -47,9 +47,11 @@ export default {
   name: 'app',
   data () {
     return {
-      gutter: 20,
-      offset: 6,
-      span: 12,
+      style: {
+        gutter: 20,
+        offset: 6,
+        span: 12,
+      },
     };
   },
   methods: {
