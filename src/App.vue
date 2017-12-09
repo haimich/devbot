@@ -5,7 +5,7 @@
       <el-col :span="style.span" :offset="style.offset">
         <div class="header">
           <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
-          <img class="snuffles" src="./assets/snuffles.png">
+          <span class="snuffles"></span>
         </div>
       </el-col>
     </el-row>
@@ -94,6 +94,17 @@ body {
 
 .snuffles {
   height: 130px;
+  min-width: 100px;
+  background-image: url("./assets/snuffles.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: contain;
+  background-position: center center;
+}
+
+.snuffles:hover {
+  background-image: url("./assets/snuffles_hover.png");
+  min-width: 130px;
 }
 
 .el-menu a {

@@ -1,17 +1,8 @@
 <template>
   <div class="form">
-    <el-form ref="form">
-        <el-form-item label="Hash ID">
-          <el-row :gutter="style.gutter">
-            <el-col :span="8">
-              <el-input v-model="hashId.userInput" placeholder="Hash ID"></el-input>
-            </el-col>
-            <el-col :span="4">
-              <el-button type="primary" @click="decryptHash" plain>Decrypt</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
 
+    <!-- epoch conver -->
+    <el-form ref="form">
         <div class="timestamp-text">
           <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
             The current Unix epoch time is <el-tag>{{timestamp.current}}</el-tag> seconds
@@ -63,6 +54,21 @@
           </el-radio-group>
         </div>
     </el-form>
+
+    <!-- Hash ID -->
+    <el-form ref="form">
+        <el-form-item label="Hash ID">
+          <el-row :gutter="style.gutter">
+            <el-col :span="8">
+              <el-input v-model="hashId.userInput" placeholder="Hash ID"></el-input>
+            </el-col>
+            <el-col :span="4">
+              <el-button type="primary" @click="decryptHash" plain>Decrypt</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
+    </el-form>
+    
   </div>
 </template>
 
@@ -202,8 +208,13 @@ export default {
 
 <style scoped>
 
+input {
+  width: 200px;
+}
+
 .timestamp-text {
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   color: #5a5e66;
 }
 
