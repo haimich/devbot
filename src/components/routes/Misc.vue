@@ -1,7 +1,7 @@
 <template>
   <div class="form">
 
-    <!-- epoch conver -->
+    <!-- epoch convert -->
     <el-form ref="form">
         <div class="timestamp-text">
           <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
@@ -12,7 +12,7 @@
         <el-form-item label="Timestamp">
           <el-row :gutter="style.gutter">
             <el-col :span="8">
-              <el-input type="number" v-model="timestamp.userInput" placeholder="1512816794"></el-input>
+              <el-input class="timestamp-input" type="number" v-model="timestamp.userInput" placeholder="1512816794"></el-input>
             </el-col>
             <el-col :span="4">
               <el-button type="primary" @click="convertTimestamp" plain>Timestamp to Human date</el-button>
@@ -34,25 +34,28 @@
 
         <el-form-item label="Select time">
           <el-row :gutter="style.gutter">
-            <el-col :span="8">
+            <el-col :span="7">
               <el-date-picker
+                 class="datetime-input"
                 v-model="timestamp.selectedDatetime"
                 type="datetime"
                 placeholder="Select date and time">
               </el-date-picker>
             </el-col>
+
+            <el-col :span="4">
+              <el-radio-group v-model="timestamp.selectedTimezone" size="small">
+                <el-radio-button label="GMT"></el-radio-button>
+                <el-radio-button label="CET"></el-radio-button>
+              </el-radio-group>
+            </el-col>
+
             <el-col :span="4">
               <el-button type="primary" @click="convertDatetime" plain>Human date to Timestamp</el-button>
             </el-col>
+
           </el-row>
         </el-form-item>
-
-        <div style="margin-top: 20px">
-          <el-radio-group v-model="timestamp.selectedTimezone" size="small">
-            <el-radio-button label="GMT"></el-radio-button>
-            <el-radio-button label="CET"></el-radio-button>
-          </el-radio-group>
-        </div>
     </el-form>
 
     <!-- Hash ID -->
@@ -60,7 +63,7 @@
         <el-form-item label="Hash ID">
           <el-row :gutter="style.gutter">
             <el-col :span="8">
-              <el-input v-model="hashId.userInput" placeholder="Hash ID"></el-input>
+              <el-input class="hashid-input" v-model="hashId.userInput" placeholder="Hash ID"></el-input>
             </el-col>
             <el-col :span="4">
               <el-button type="primary" @click="decryptHash" plain>Decrypt</el-button>
@@ -208,7 +211,7 @@ export default {
 
 <style scoped>
 
-input {
+.timestamp-input, .datetime-input, .hashid-input {
   width: 200px;
 }
 
