@@ -48,8 +48,8 @@ export default {
   data () {
     return {
       gutter: 20,
-      offset: 7,
-      span: 10,
+      offset: 6,
+      span: 12,
     };
   },
   methods: {
