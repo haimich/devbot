@@ -79,8 +79,6 @@
 
     </el-row>
 
-    <el-row :gutter="style.gutter" style="text-align: center">&nbsp;</el-row>
-
     <!-- Hash ID -->
     <h3 class="section-heading">Hash ID Converter</h3>
 
@@ -88,7 +86,12 @@
 
       <el-form>
           <el-form-item label="Hash ID" label-width="100px">
-            <el-input class="hashid-input" v-model="hashId.userInput" placeholder="AXS22S3D"></el-input>
+            <el-input
+              class="hashid-input"
+              v-model="hashId.userInput"
+              placeholder="AXS22S3D"
+              @input="fetchHashId"
+            ></el-input>
           </el-form-item>
       </el-form>
 
@@ -98,6 +101,7 @@
 </template>
 
 <script>
+import HashIdService from '@/services/HashIdService';
 import moment from 'moment-timezone';
 
 export default {
@@ -108,10 +112,6 @@ export default {
       style: {
         gutter: 12,
       },
-      hashId: {
-        userInput: "",
-      },
-      test: {abc: 123},
       timestamp: {
         current: this.getCurrentTimestamp(),
         mode: "Timestamp",
@@ -140,6 +140,9 @@ export default {
             timezone: 'CET'
           }]
         },
+      },
+      hashId: {
+        userInput: "",
       },
     }
   },
@@ -174,10 +177,6 @@ export default {
         message: message,
         duration: options.duration,
       });
-    },
-
-    decryptHash(event) {
-      console.log('decrypt');
     },
 
     convertTimestamp() {
@@ -244,6 +243,19 @@ export default {
       clearInterval(this.timestampInterval);
     },
 
+    fetchHashId(event) {
+      if (this.hashId.userInput == null || this.hashId.userInput.length < 5) {
+        return;
+      }
+
+      // debounce
+      setTimeout(function() {
+        HashIdService.get()
+          .then(response => console.log('done', response))
+          .catch(err => console.log('oops', err));
+      }, 100);
+    },
+
   },
 
   created() {
@@ -278,6 +290,7 @@ export default {
 .timestamp-text {
   margin-top: 10px;
   margin-bottom: 20px;
+  margin-left: 6px;
   color: #5a5e66;
   font-size: 14px;
 }
