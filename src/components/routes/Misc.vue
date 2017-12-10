@@ -4,13 +4,13 @@
     <!-- epoch convert -->
     <h3 class="section-heading">Epoch Converter</h3>
 
-    <el-row :gutter="style.gutter">
+    <div class="timestamp-text">
+      <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
+        The current Unix time is <el-tag>{{timestamp.current}}</el-tag> seconds
+      </span>
+    </div>
 
-      <div class="timestamp-text">
-        <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
-          The current Unix time is <el-tag>{{timestamp.current}}</el-tag> seconds
-        </span>
-      </div>
+    <el-row :gutter="style.gutter">
 
       <el-col :span="12">
         <el-form class="timestamp-form" label-width="100px">
@@ -59,7 +59,7 @@
         </el-form>
       </el-col>
 
-      <el-col class="timestamp-result" v-if="timestamp.calculated.value !== null" :span="12" style="padding-left: 14px; padding-right: 14px;">
+      <el-col class="results-container" v-if="timestamp.calculated.value !== null" :span="12" style="padding-left: 14px; padding-right: 14px;">
         <el-row class="timestamp-results-header">
           <el-col :span="14">Date</el-col>
           <el-col :span="5">Time</el-col>
@@ -83,18 +83,25 @@
     <h3 class="section-heading">Hash ID Converter</h3>
 
     <el-row :gutter="style.gutter">
+      
+      <el-col :span="12">
+        <el-form>
+            <el-form-item label="Hash ID" label-width="100px">
+              <el-input
+                class="hashid-input"
+                v-model="hashId.userInput"
+                placeholder="AXS22S3D"
+                @input="fetchHashId"
+              ></el-input>
+            </el-form-item>
+        </el-form>
+      </el-col>
 
-      <el-form>
-          <el-form-item label="Hash ID" label-width="100px">
-            <el-input
-              class="hashid-input"
-              v-model="hashId.userInput"
-              placeholder="AXS22S3D"
-              @input="fetchHashId"
-            ></el-input>
-          </el-form-item>
-      </el-form>
-
+      <el-col class="results-container" v-if="hashId.calculated !== ''" :span="12" style="padding: 20px;">
+        <el-row>
+          <el-col :span="24">{{hashId.calculated}}</el-col>
+        </el-row>
+      </el-col>
     </el-row>
     
   </div>
@@ -143,6 +150,7 @@ export default {
       },
       hashId: {
         userInput: "",
+        calculated: "",
       },
     }
   },
@@ -249,11 +257,14 @@ export default {
       }
 
       // debounce
-      setTimeout(function() {
-        HashIdService.get()
-          .then(response => console.log('done', response))
-          .catch(err => console.log('oops', err));
-      }, 100);
+      //setTimeout(function() {
+      HashIdService.get()
+        .then(response => {
+          console.log('done', response);
+          this.hashId.calculated = "1231";
+        })
+        .catch(err => console.log('oops', err));
+      //}, 100);
     },
 
   },
@@ -283,14 +294,9 @@ export default {
   width: 235px;
 }
 
-.timestamp-input {
-  margin-left: -6px;
-}
-
 .timestamp-text {
   margin-top: 10px;
   margin-bottom: 20px;
-  margin-left: 6px;
   color: #5a5e66;
   font-size: 14px;
 }
@@ -310,8 +316,10 @@ export default {
   margin-bottom: 5px;
 }
 
-.timestamp-result {
-  border: 1px solid #D8DCE5;
+.results-container {
+  border: 1px solid #13ce66;
+  padding-left: 14px;
+  padding-right: 14px;
   border-radius: 4px;
   padding: 14px;
 }
