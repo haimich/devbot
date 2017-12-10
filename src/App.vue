@@ -4,7 +4,7 @@
     <el-row :gutter="style.gutter">
       <el-col :span="style.span" :offset="style.offset">
         <div class="header">
-          <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
+          <h2 class="logo-text"><router-link to="/">watchdog</router-link></h2>
           <span class="snuffles"></span>
         </div>
       </el-col>
@@ -13,8 +13,8 @@
     <el-row :gutter="style.gutter">
       <el-col :span="style.span" :offset="style.offset">
         <el-menu :router="true" mode="horizontal">
-          <el-menu-item index=""><router-link to="/">Misc</router-link></el-menu-item>
-          <el-menu-item index="resend"><router-link to="/resend">Resend Messages</router-link></el-menu-item>
+          <el-menu-item index=""><router-link to="/">Convert</router-link></el-menu-item>
+          <el-menu-item index="resend"><router-link to="/resend">Resend</router-link></el-menu-item>
           <el-menu-item index="translate"><router-link to="/translate">Translate</router-link></el-menu-item>
         </el-menu>
       </el-col>
@@ -54,12 +54,6 @@ export default {
       },
     };
   },
-  methods: {
-      //  @select="handleSelect"
-      // handleSelect(key, keyPath) {
-      //   console.log(key, keyPath);
-      // }
-  }
 }
 </script>
 

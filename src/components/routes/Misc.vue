@@ -4,63 +4,91 @@
     <!-- epoch convert -->
     <h3 class="section-heading">Epoch Converter</h3>
 
-    <el-form ref="form">
+    <el-row :gutter="style.gutter">
+
+      <el-col :span="12">
         <div class="timestamp-text">
           <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
-            The current Unix epoch time is <el-tag>{{timestamp.current}}</el-tag> seconds
+            The current Unix time is <el-tag>{{timestamp.current}}</el-tag> seconds
           </span>
         </div>
 
-        <el-form-item label="Timestamp">
-          <el-row :gutter="style.gutter">
-            <el-col :span="8">
-              <el-input class="timestamp-input" type="number" v-model="timestamp.userInput" placeholder="1512816794"></el-input>
-            </el-col>
-            <el-col :span="4">
-              <el-button type="primary" @click="convertTimestamp" plain>Timestamp to Human date</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
+        <el-form class="timestamp-form" label-width="100px">
 
-        <el-row v-if="timestamp.calculated.value !== null" class="timestamp-results">
-          <div v-if="timestamp.calculated.type === 'microseconds'" class="timestamp-notice">Assuming that this timestamp is in microseconds</div>
-          <div v-if="timestamp.calculated.type === 'milliseconds'" class="timestamp-notice">Assuming that this timestamp is in milliseconds</div>
+          <el-form-item label="Input mode">
+            <el-radio-group v-model="timestamp.mode" size="medium">
+              <el-radio-button label="Timestamp"></el-radio-button>
+              <el-radio-button label="Human Date"></el-radio-button>
+            </el-radio-group>
+          </el-form-item>
 
-          <div>
-            <strong>GMT: </strong> {{this.timestamp.calculated.valueGMT}}
-          </div>
-          <div>
-            <strong>Your time zone: </strong> {{this.timestamp.calculated.value}}
-          </div>
-        </el-row>
+          <el-form-item label="Timestamp" v-if="timestamp.mode == 'Timestamp'">
+            <el-row :gutter="style.gutter">
+              <el-col :span="8">
+                <el-input
+                  class="timestamp-input"
+                  type="number"
+                  v-model.number="timestamp.userInput"
+                  @input="convertTimestamp"
+                  placeholder="1512816794"
+                ></el-input>
+              </el-col>
+            </el-row>
+          </el-form-item>
 
-        <el-form-item label="Select time">
-          <el-row :gutter="style.gutter">
-            <el-col :span="7">
+          <div v-if="timestamp.mode === 'Human Date'">
+            <el-form-item label="Select time">
               <el-date-picker
-                 class="datetime-input"
+                class="datetime-input"
                 v-model="timestamp.selectedDatetime"
                 type="datetime"
                 placeholder="Select date and time">
               </el-date-picker>
-            </el-col>
+            </el-form-item>
 
-            <el-col :span="4">
-              <el-radio-group v-model="timestamp.selectedTimezone" size="small">
-                <el-radio-button label="GMT"></el-radio-button>
-                <el-radio-button label="CET"></el-radio-button>
-              </el-radio-group>
-            </el-col>
+            <el-form-item label="Timezone" style="margin-top: -10px;">
+              <el-select v-model="timestamp.selectedTimezone">
+                <el-option
+                  v-for="timezone in timestamp.timezones"
+                  :key="timezone.value"
+                  :label="timezone.label"
+                  :value="timezone.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
 
-            <el-col :span="4">
-              <el-button type="primary" @click="convertDatetime" plain>Human date to Timestamp</el-button>
-            </el-col>
+        </el-form>
+      </el-col>
 
+      <el-col class="timestamp-result" :span="12">
+        <div v-if="timestamp.calculated.value !== null">
+          <el-row class="timestamp-results-header" :gutter="style.gutter">
+            <el-col :span="14">Date</el-col>
+            <el-col :span="5">Time</el-col>
+            <el-col :span="5">Timezone</el-col>
           </el-row>
-        </el-form-item>
-    </el-form>
+
+          <el-row
+            class="timestamp-result-element"
+            :gutter="style.gutter"
+            v-for="data in timestamp.calculated.tableData"
+            :key="data.key"
+          >
+            <el-col :span="14">{{data.date}}</el-col>
+            <el-col :span="5">{{data.time}}</el-col>
+            <el-col :span="5">{{data.timezone}}</el-col>
+          </el-row>
+        </div>
+      </el-col>
+
+    </el-row>
+
+    <el-row :gutter="style.gutter" style="text-align: center">&nbsp;</el-row>
 
     <!-- Hash ID -->
+    <h3 class="section-heading">Hash ID Converter</h3>
+
     <el-form ref="form">
         <el-form-item label="Hash ID">
           <el-row :gutter="style.gutter">
@@ -89,18 +117,43 @@ export default {
         gutter: 12,
       },
       hashId: {
-        userInput: '',
+        userInput: "",
       },
       timestamp: {
         current: this.getCurrentTimestamp(),
-        userInput: '',
+        mode: "Timestamp",
+        timezones: [{
+            value: "GMT",
+            label: "GMT"
+          }, {
+            value: "CET",
+            label: "CET"
+        }],
+        userInput: "",
         selectedDatetime: null,
         selectedTimezone: "GMT",
         calculated: {
           value: null,
-          type: '',
+          type: "",
+          tableData: [{
+            key: 1,
+            date: '2017, Sunday, December 10th',
+            time: '15:55:31',
+            timezone: 'GMT'
+          }, {
+            key: 2,
+            date: '2017, Sunday, December 10th',
+            time: '22:22:22',
+            timezone: 'CET'
+          }]
         },
       },
+    }
+  },
+
+  watch: {
+    mode: function() {
+        console.log('change')
     }
   },
 
@@ -214,8 +267,10 @@ export default {
 <style scoped>
 
 .section-heading {
-  color: #2D2F33;
+  color: #0d435d;
   font-weight: 400;
+  font-size: 18px;
+  margin: 8px 0 12px 0;
 }
 
 .timestamp-input, .datetime-input, .hashid-input {
@@ -242,6 +297,35 @@ export default {
 
 .timestamp-notice {
   margin-bottom: 5px;
+}
+
+.timestamp-result {
+  border: 1px solid #D8DCE5;
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.timestamp-results-header {
+  color: #878d99;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.timestamp-result-element {
+  color: #5a5e66;
+  font-size: 14px;
+  font-weight: 400;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-top: 1px solid #D8DCE5;
+  transition: background-color 0.2s;
+}
+
+.timestamp-result-element:hover {
+  background-color: #f5f7fa;
 }
 
 </style>
