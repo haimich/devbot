@@ -119,6 +119,7 @@ export default {
       hashId: {
         userInput: "",
       },
+      test: {abc: 123},
       timestamp: {
         current: this.getCurrentTimestamp(),
         mode: "Timestamp",
@@ -152,8 +153,9 @@ export default {
   },
 
   watch: {
-    mode: function() {
-        console.log('change')
+    'timestamp.mode': function() {
+        this.timestamp.userInput = "";
+        this.timestamp.selectedDatetime = null;
     }
   },
 
