@@ -2,6 +2,8 @@
   <div class="form">
 
     <!-- epoch convert -->
+    <h3 class="section-heading">Epoch Converter</h3>
+
     <el-form ref="form">
         <div class="timestamp-text">
           <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
@@ -211,6 +213,11 @@ export default {
 
 <style scoped>
 
+.section-heading {
+  color: #2D2F33;
+  font-weight: 400;
+}
+
 .timestamp-input, .datetime-input, .hashid-input {
   width: 200px;
 }
@@ -219,11 +226,13 @@ export default {
   margin-top: 10px;
   margin-bottom: 20px;
   color: #5a5e66;
+  font-size: 14px;
 }
 
 .timestamp-text .el-tag {
   margin-left: 3px;
-  min-width: 90px;
+  min-width: 85px;
+  padding: 0 9px;
 }
 
 .timestamp-results {
