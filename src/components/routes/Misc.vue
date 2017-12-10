@@ -6,13 +6,13 @@
 
     <el-row :gutter="style.gutter">
 
-      <el-col :span="12">
-        <div class="timestamp-text">
-          <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
-            The current Unix time is <el-tag>{{timestamp.current}}</el-tag> seconds
-          </span>
-        </div>
+      <div class="timestamp-text">
+        <span @mouseover="stopTimestampInterval" @mouseout="startTimestampInterval">
+          The current Unix time is <el-tag>{{timestamp.current}}</el-tag> seconds
+        </span>
+      </div>
 
+      <el-col :span="12">
         <el-form class="timestamp-form" label-width="100px">
 
           <el-form-item label="Input mode">
@@ -22,7 +22,7 @@
             </el-radio-group>
           </el-form-item>
 
-          <el-form-item label="Timestamp" v-if="timestamp.mode == 'Timestamp'">
+          <el-form-item label="Input" v-if="timestamp.mode == 'Timestamp'">
             <el-row :gutter="style.gutter">
               <el-col :span="8">
                 <el-input
@@ -36,50 +36,45 @@
             </el-row>
           </el-form-item>
 
-          <div v-if="timestamp.mode === 'Human Date'">
-            <el-form-item label="Select time">
-              <el-date-picker
-                class="datetime-input"
-                v-model="timestamp.selectedDatetime"
-                type="datetime"
-                placeholder="Select date and time">
-              </el-date-picker>
-            </el-form-item>
+          <el-form-item label="Input" v-if="timestamp.mode === 'Human Date'">
+            <el-date-picker
+              class="datetime-input"
+              v-model="timestamp.selectedDatetime"
+              type="datetime"
+              placeholder="Select date and time">
+            </el-date-picker>
+          </el-form-item>
 
-            <el-form-item label="Timezone" style="margin-top: -10px;">
-              <el-select v-model="timestamp.selectedTimezone">
-                <el-option
-                  v-for="timezone in timestamp.timezones"
-                  :key="timezone.value"
-                  :label="timezone.label"
-                  :value="timezone.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
+          <el-form-item label="Timezone" style="margin-top: -10px;">
+            <el-select v-model="timestamp.selectedTimezone">
+              <el-option
+                v-for="timezone in timestamp.timezones"
+                :key="timezone.value"
+                :label="timezone.label"
+                :value="timezone.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
 
         </el-form>
       </el-col>
 
-      <el-col class="timestamp-result" :span="12">
-        <div v-if="timestamp.calculated.value !== null">
-          <el-row class="timestamp-results-header" :gutter="style.gutter">
-            <el-col :span="14">Date</el-col>
-            <el-col :span="5">Time</el-col>
-            <el-col :span="5">Timezone</el-col>
-          </el-row>
+      <el-col class="timestamp-result" v-if="timestamp.calculated.value !== null" :span="12" style="padding-left: 14px; padding-right: 14px;">
+        <el-row class="timestamp-results-header">
+          <el-col :span="14">Date</el-col>
+          <el-col :span="5">Time</el-col>
+          <el-col :span="5">Timezone</el-col>
+        </el-row>
 
-          <el-row
-            class="timestamp-result-element"
-            :gutter="style.gutter"
-            v-for="data in timestamp.calculated.tableData"
-            :key="data.key"
-          >
-            <el-col :span="14">{{data.date}}</el-col>
-            <el-col :span="5">{{data.time}}</el-col>
-            <el-col :span="5">{{data.timezone}}</el-col>
-          </el-row>
-        </div>
+        <el-row
+          class="timestamp-result-element"
+          v-for="data in timestamp.calculated.tableData"
+          :key="data.key"
+        >
+          <el-col :span="14">{{data.date}}</el-col>
+          <el-col :span="5">{{data.time}}</el-col>
+          <el-col :span="5">{{data.timezone}}</el-col>
+        </el-row>
       </el-col>
 
     </el-row>
@@ -304,7 +299,7 @@ export default {
 .timestamp-result {
   border: 1px solid #D8DCE5;
   border-radius: 4px;
-  padding: 20px;
+  padding: 14px;
 }
 
 .timestamp-results-header {
