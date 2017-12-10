@@ -46,7 +46,7 @@
           </el-form-item>
 
           <el-form-item label="Timezone" style="margin-top: -10px;">
-            <el-select v-model="timestamp.selectedTimezone">
+            <el-select class="timestamp-select" v-model="timestamp.selectedTimezone">
               <el-option
                 v-for="timezone in timestamp.timezones"
                 :key="timezone.value"
@@ -84,18 +84,15 @@
     <!-- Hash ID -->
     <h3 class="section-heading">Hash ID Converter</h3>
 
-    <el-form ref="form">
-        <el-form-item label="Hash ID">
-          <el-row :gutter="style.gutter">
-            <el-col :span="8">
-              <el-input class="hashid-input" v-model="hashId.userInput" placeholder="Hash ID"></el-input>
-            </el-col>
-            <el-col :span="4">
-              <el-button type="primary" @click="decryptHash" plain>Decrypt</el-button>
-            </el-col>
-          </el-row>
-        </el-form-item>
-    </el-form>
+    <el-row :gutter="style.gutter">
+
+      <el-form>
+          <el-form-item label="Hash ID" label-width="100px">
+            <el-input class="hashid-input" v-model="hashId.userInput" placeholder="AXS22S3D"></el-input>
+          </el-form-item>
+      </el-form>
+
+    </el-row>
     
   </div>
 </template>
@@ -151,7 +148,7 @@ export default {
     'timestamp.mode': function() {
         this.timestamp.userInput = "";
         this.timestamp.selectedDatetime = null;
-    }
+    },
   },
 
   methods: {
@@ -270,8 +267,12 @@ export default {
   margin: 8px 0 12px 0;
 }
 
-.timestamp-input, .datetime-input, .hashid-input {
-  width: 200px;
+.timestamp-input, .datetime-input, .timestamp-select, .hashid-input {
+  width: 235px;
+}
+
+.timestamp-input {
+  margin-left: -6px;
 }
 
 .timestamp-text {
