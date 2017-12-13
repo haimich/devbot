@@ -1,6 +1,15 @@
 <template>
   <div>
-    <h2>Resend</h2>
+    <h3 class="section-heading">CDP</h3>
+
+    <el-row :gutter="style.gutter">
+
+      <el-col :span="12">
+        <el-form class="resend-form" label-width="100px">
+
+        </el-form>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -9,7 +18,12 @@ export default {
   name: 'Resend',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      style: {
+        gutter: 12,
+      },
+      resend: {
+        
+      }
     }
   }
 }

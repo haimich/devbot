@@ -4,7 +4,7 @@
     <el-row :gutter="style.gutter">
       <el-col :span="style.span" :offset="style.offset">
         <div class="header">
-          <h2 class="logo-text"><router-link to="/">watchdog</router-link></h2>
+          <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
           <span class="snuffles"></span>
         </div>
       </el-col>
@@ -49,8 +49,8 @@ export default {
     return {
       style: {
         gutter: 20,
-        offset: 6,
-        span: 12,
+        offset: 5,
+        span: 14,
       },
     };
   },
@@ -108,6 +108,13 @@ body {
 .main {
   min-height: 50vh;
   border-bottom: solid 1px #e6e6e6;
+}
+
+.section-heading {
+  color: #0d435d;
+  font-weight: 400;
+  font-size: 18px;
+  margin: 8px 0 12px 0;
 }
 
 </style>

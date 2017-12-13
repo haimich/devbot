@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <div>
 
     <!-- epoch convert -->
     <h3 class="section-heading">Epoch Converter</h3>
@@ -282,14 +282,6 @@ export default {
 </script>
 
 <style scoped>
-
-.section-heading {
-  color: #0d435d;
-  font-weight: 400;
-  font-size: 18px;
-  margin: 8px 0 12px 0;
-}
-
 .timestamp-input, .datetime-input, .timestamp-select, .hashid-input {
   width: 235px;
 }

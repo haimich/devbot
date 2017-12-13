@@ -4,10 +4,10 @@ export default {
   get() {
     return fetch("https://www.google.de")
       .then(response => {
-        return response.blob();
+        return response.json();
       })
-      .then(myBlob => {
-        return "done";
+      .then(json => {
+        return json;
       });
   }
 
