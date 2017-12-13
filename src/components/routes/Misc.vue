@@ -34,6 +34,9 @@
                 ></el-input>
               </el-col>
             </el-row>
+
+            <div v-if="timestamp.calculated.type === 'microseconds'" class="timestamp-notice">Assuming this timestamp is in microseconds</div>
+            <div v-if="timestamp.calculated.type === 'milliseconds'" class="timestamp-notice">Assuming this timestamp is in milliseconds</div>
           </el-form-item>
 
           <el-form-item label="Input" v-if="timestamp.mode === 'Human Date'">
@@ -135,17 +138,7 @@ export default {
         calculated: {
           value: null,
           type: "",
-          tableData: [{
-            key: 1,
-            date: '2017, Sunday, December 10th',
-            time: '15:55:31',
-            timezone: 'GMT'
-          }, {
-            key: 2,
-            date: '2017, Sunday, December 10th',
-            time: '22:22:22',
-            timezone: 'CET'
-          }]
+          tableData: []
         },
       },
       hashId: {
@@ -189,6 +182,11 @@ export default {
 
     convertTimestamp() {
       if (this.timestamp.userInput == null || this.timestamp.userInput === '') {
+        this.timestamp.calculated = {
+          value: null,
+          type: "",
+          tableData: []
+        };
         return;
       }
 
@@ -205,17 +203,34 @@ export default {
 
       if (value >= 100000000000000 || value <= -100000000000000) {
         this.timestamp.calculated.type = "microseconds";
-        momentObj = moment(value / 1000);
+        momentObj = moment(value / 1000, "GMT");
       } else if (value >= 100000000000 || value <= -100000000000) {
         this.timestamp.calculated.type = "milliseconds";
-        momentObj = moment(value);
+        momentObj = moment(value, "GMT");
       } else {
         this.timestamp.calculated.type = "seconds";
-        momentObj = moment(value * 1000);
+        momentObj = moment(value * 1000, "GMT");
+      }
+      
+      if (! momentObj.isValid()) {
+        this.notify({ text: "Is not valid: " + value, duration: 2000 });
+        return;
       }
 
-      this.timestamp.calculated.valueGMT = momentObj.tz("GMT").format("dddd, MMMM Do YYYY, HH:mm:ss");
-      this.timestamp.calculated.value = momentObj.tz("CET").format("dddd, MMMM Do YYYY, HH:mm:ss");
+      var gmt = momentObj.tz("GMT");
+      var cet = momentObj.tz("CET");
+
+      this.timestamp.calculated.tableData = [{
+          key: 1,
+          date: gmt.format("YYYY dddd, MMMM Do"),
+          time: gmt.format("HH:mm:ss"),
+          timezone: 'GMT'
+        }, {
+          key: 2,
+          date: cet.format("YYYY dddd, MMMM Do"),
+          time: cet.format("HH:mm:ss"),
+          timezone: 'CET'
+      }];
     },
 
     convertDatetime() {
@@ -231,8 +246,20 @@ export default {
         return;
       }
 
-      this.timestamp.calculated.valueGMT = momentObj.tz("GMT").format("dddd, MMMM Do YYYY, HH:mm:ss");
-      this.timestamp.calculated.value = momentObj.tz("CET").format("dddd, MMMM Do YYYY, HH:mm:ss");
+      var gmt = momentObj.tz("GMT");
+      var cet = momentObj.tz("CET");
+
+      this.timestamp.calculated.tableData = [{
+          key: 1,
+          date: gmt.format("YYYY dddd, MMMM Do"),
+          time: gmt.format("HH:mm:ss"),
+          timezone: 'GMT'
+        }, {
+          key: 2,
+          date: cet.format("YYYY dddd, MMMM Do"),
+          time: cet.format("HH:mm:ss"),
+          timezone: 'CET'
+      }];
     },
 
     getCurrentTimestamp() {
@@ -305,7 +332,8 @@ export default {
 }
 
 .timestamp-notice {
-  margin-bottom: 5px;
+  font-size: 14px;
+  font-style: italic;
 }
 
 .results-container {
