@@ -1,12 +1,11 @@
 <template>
 
-    <el-card class="box-card">
+    <el-card class="box-card" v-loading="isLoading">
         <div slot="header" class="clearfix">
             <span>Solr</span>
             <el-button style="float: right; padding: 3px 0" type="text" @click="refreshSolrInfo"><i class="el-icon-d-arrow-right"></i></el-button>
         </div>
-        <div v-if="isLoading">Loading...</div>
-        <div v-else v-for="server in servers" :key="server.name" class="text item">
+        <div v-for="server in servers" :key="server.name" class="text item">
             {{server.name}}: <a :href="server.url" target="_blank">{{ server.urlPath }}</a>
         </div>
     </el-card>
