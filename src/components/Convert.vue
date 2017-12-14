@@ -202,13 +202,13 @@ export default {
 
       if (value >= 100000000000000 || value <= -100000000000000) {
         this.timestamp.calculated.type = "microseconds";
-        momentObj = moment(value / 1000, "GMT");
+        momentObj = moment(value / 1000);
       } else if (value >= 100000000000 || value <= -100000000000) {
         this.timestamp.calculated.type = "milliseconds";
-        momentObj = moment(value, "GMT");
+        momentObj = moment(value);
       } else {
         this.timestamp.calculated.type = "seconds";
-        momentObj = moment(value * 1000, "GMT");
+        momentObj = moment(value * 1000);
       }
       
       if (! momentObj.isValid()) {
@@ -216,23 +216,15 @@ export default {
         return;
       }
 
-      var gmt = momentObj.tz("GMT");
-      var cet = momentObj.tz("CET");
-
-      if (! gmt.isValid() || ! cet.isValid()) {
-        this.timestamp.calculated.tableData = [];
-        return;
-      }
-
       this.timestamp.calculated.tableData = [{
           key: 1,
-          date: gmt.format("YYYY dddd, MMMM Do"),
-          time: gmt.format("HH:mm:ss"),
+          date: momentObj.tz("GMT").format("YYYY dddd, MMMM Do"),
+          time: momentObj.tz("GMT").format("HH:mm:ss"),
           timezone: 'GMT'
         }, {
           key: 2,
-          date: cet.format("YYYY dddd, MMMM Do"),
-          time: cet.format("HH:mm:ss"),
+          date: momentObj.tz("CET").format("YYYY dddd, MMMM Do"),
+          time: momentObj.tz("CET").format("HH:mm:ss"),
           timezone: 'CET'
       }];
     },
