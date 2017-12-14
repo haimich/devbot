@@ -101,10 +101,8 @@
         </el-form>
       </el-col>
 
-      <el-col class="results-container" v-if="hashId.calculated !== ''" :span="12" style="padding: 20px;">
-        <el-row>
-          <el-col :span="24">{{hashId.calculated}}</el-col>
-        </el-row>
+      <el-col class="results-container" v-if="hashId.calculated !== ''" :span="3" style="padding: 20px;">
+        <div style="text-align: center">{{hashId.calculated}}</div>
       </el-col>
     </el-row>
     
@@ -289,15 +287,11 @@ export default {
         return;
       }
 
-      // debounce
-      //setTimeout(function() {
-      HashIdService.get()
-        .then(response => {
-          console.log('done', response);
-          this.hashId.calculated = "1231";
+      HashIdService.get(this.hashId.userInput)
+        .then(id => {
+          this.hashId.calculated = id;
         })
         .catch(err => console.log('oops', err));
-      //}, 100);
     },
 
   },
