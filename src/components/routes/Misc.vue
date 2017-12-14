@@ -62,7 +62,8 @@
         </el-form>
       </el-col>
 
-      <el-col class="results-container" v-if="timestamp.calculated.value !== null" :span="12" style="padding-left: 14px; padding-right: 14px;">
+      <!-- Timestamp Results -->
+      <el-col class="results-container" v-if="timestamp.calculated.tableData.length >= 1" :span="12" style="padding-left: 14px; padding-right: 14px;">
         <el-row class="timestamp-results-header">
           <el-col :span="14">Date</el-col>
           <el-col :span="5">Time</el-col>
@@ -219,6 +220,11 @@ export default {
 
       var gmt = momentObj.tz("GMT");
       var cet = momentObj.tz("CET");
+
+      if (! gmt.isValid() || ! cet.isValid()) {
+        this.timestamp.calculated.tableData = [];
+        return;
+      }
 
       this.timestamp.calculated.tableData = [{
           key: 1,
