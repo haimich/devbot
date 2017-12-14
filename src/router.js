@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Convert from '@/components/routes/Convert'
-import Resend from '@/components/routes/Resend'
-import Translate from '@/components/routes/Translate'
+import Convert from '@/components/Convert'
+import Resend from '@/components/Resend'
+import Translate from '@/components/Translate'
 
 Vue.use(Router)
 

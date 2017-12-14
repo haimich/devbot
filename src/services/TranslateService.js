@@ -1,13 +1,40 @@
 
 export default {
 
-  get() {
-    return fetch("https://www.google.de")
+  translateText(key, textEn) {
+    return fetch("/backend/translations", {
+      method: 'post',
+      body: JSON.stringify({
+        textKey: key,
+        textEN: textEn,
+      })
+    })
+      .then(response => {
+        return;
+      })
+      .catch(err => {
+        return err;
+      });
+  },
+
+  fetchTranslations(key, textEn) {
+    var url = "/backend/translations";
+
+    if (key != null && key !== "") {
+      url += "?textKey=" + key;
+    } else if (textEn != null && textEn !== "") {
+      url += "?textEn=" + textEn;
+    }
+
+    return fetch(url)
       .then(response => {
         return response.json();
       })
-      .then(json => {
-        return json;
+      .then(translations => {
+        return translations;
+      })
+      .catch(err => {
+        return err;
       });
   }
 
