@@ -1,13 +1,16 @@
 
 export default {
 
-  get() {
-    return fetch("https://www.google.de")
+  get(id) {
+    return fetch("/backend/hashids/convert?id=" + encodeURI(id))
       .then(response => {
-        return response.blob();
+        return response.text();
       })
-      .then(myBlob => {
-        return "done";
+      .then(resultId => {
+        return resultId;
+      })
+      .catch(err => {
+        return err;
       });
   }
 
