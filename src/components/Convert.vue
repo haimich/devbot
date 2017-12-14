@@ -43,6 +43,7 @@
             <el-date-picker
               class="datetime-input"
               v-model="timestamp.selectedDatetime"
+              @change="convertDatetime"
               type="datetime"
               placeholder="Select date and time">
             </el-date-picker>
@@ -216,15 +217,18 @@ export default {
         return;
       }
 
+      const gmt = momentObj.clone().tz("gmt")
+      const cet = momentObj.clone().tz("cet")
+
       this.timestamp.calculated.tableData = [{
           key: 1,
-          date: momentObj.tz("GMT").format("YYYY dddd, MMMM Do"),
-          time: momentObj.tz("GMT").format("HH:mm:ss"),
+          date: gmt.format("YYYY dddd, MMMM Do"),
+          time: gmt.format("HH:mm:ss"),
           timezone: 'GMT'
         }, {
           key: 2,
-          date: momentObj.tz("CET").format("YYYY dddd, MMMM Do"),
-          time: momentObj.tz("CET").format("HH:mm:ss"),
+          date: cet.format("YYYY dddd, MMMM Do"),
+          time: cet.format("HH:mm:ss"),
           timezone: 'CET'
       }];
     },
@@ -242,8 +246,8 @@ export default {
         return;
       }
 
-      var gmt = momentObj.tz("GMT");
-      var cet = momentObj.tz("CET");
+      const gmt = momentObj.clone().tz("gmt")
+      const cet = momentObj.clone().tz("cet")
 
       this.timestamp.calculated.tableData = [{
           key: 1,
