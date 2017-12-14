@@ -1,6 +1,6 @@
 <template>
 
-    <el-card class="box-card" v-loading="isLoading">
+    <el-card class="box-card" v-loading="isLoading" style="min-height: 250px;">
         <div slot="header" class="clearfix">
             <span>Solr</span>
             <el-button style="float: right; padding: 3px 0" type="text" @click="refreshSolrInfo"><i class="el-icon-d-arrow-right"></i></el-button>

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Misc from '@/components/routes/Misc'
+import Convert from '@/components/routes/Convert'
 import Resend from '@/components/routes/Resend'
 import Translate from '@/components/routes/Translate'
 
@@ -10,8 +10,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Misc',
-      component: Misc
+      name: 'Convert',
+      component: Convert
     },
     {
       path: '/resend',
