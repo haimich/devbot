@@ -1,8 +1,8 @@
 
 export default {
 
-  get(id) {
-    return fetch("/backend/hashids/convert?id=" + encodeURI(id))
+  get(id, reverse) {
+    return fetch("/backend/hashids/convert?id=" + encodeURI(id) + "&reverse=" + reverse)
       .then(response => {
         return response.text();
       })

@@ -91,13 +91,17 @@
       
       <el-col :span="12">
         <el-form>
-            <el-form-item label="Hash ID" label-width="100px">
+            <el-form-item label="Hash ID" label-width="100px" style="margin-bottom: 0">
               <el-input
                 class="hashid-input"
                 v-model="hashId.userInput"
-                placeholder="AXS22S3D"
+                :placeholder="hashId.reverse ? '1475048' : 'MWm37zy6mV'"
                 @input="fetchHashId"
               ></el-input>
+            </el-form-item>
+
+            <el-form-item label="Reverse" label-width="100px">
+              <el-switch v-model="hashId.reverse"></el-switch>
             </el-form-item>
         </el-form>
       </el-col>
@@ -144,6 +148,7 @@ export default {
       hashId: {
         userInput: "",
         calculated: "",
+        reverse: false,
       },
     }
   },
@@ -152,6 +157,10 @@ export default {
     'timestamp.mode': function() {
         this.timestamp.userInput = "";
         this.timestamp.selectedDatetime = null;
+    },
+    'hashId.reverse': function() {
+      this.hashId.userInput = "";
+      this.hashId.calculated = "";
     },
   },
 
@@ -283,7 +292,7 @@ export default {
         return;
       }
 
-      HashIdService.get(this.hashId.userInput)
+      HashIdService.get(this.hashId.userInput, this.hashId.reverse)
         .then(id => {
           this.hashId.calculated = id;
         })
