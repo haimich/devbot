@@ -50,6 +50,11 @@ export default {
     translateText() {
       TranslateService.translateText(this.translate.key, this.translate.english)
         .then(response => {
+          this.translate = {
+            key: '',
+            english: '',
+          };
+
           this.notify({ text: "Success!", duration: 2000 });
         })
         .catch(err => console.log('oops', err));
@@ -66,11 +71,19 @@ export default {
                 return;
             }
 
+            let englishText = "";
+
             for (let translation of translations) {
                 if (translation.lang === "en") {
-                    this.translate.english = translation.text;
-                    return;
+                    englishText = translation.text;
+                    break;
                 }
+            }
+
+            if (englishText === "") {
+              this.translate.english = "missing";
+            } else {
+              this.translate.english = englishText;
             }
           })
           .catch(err => console.log('oops', err));
