@@ -106,7 +106,7 @@ body {
 }
 
 .main {
-  min-height: 50vh;
+  min-height: 40vh;
   border-bottom: solid 1px #e6e6e6;
 }
 
