@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Convert from '@/components/Convert'
 import Resend from '@/components/Resend'
 import Translate from '@/components/Translate'
+import Solr from '@/components/Solr'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/translate',
       name: 'Translate',
       component: Translate
+    },
+    {
+      path: '/solr',
+      name: 'Solr',
+      component: Solr
     },
   ]
 })

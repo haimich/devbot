@@ -16,6 +16,7 @@
           <el-menu-item index=""><router-link to="/">Convert</router-link></el-menu-item>
           <el-menu-item index="resend"><router-link to="/resend">Resend</router-link></el-menu-item>
           <el-menu-item index="translate"><router-link to="/translate">Translate</router-link></el-menu-item>
+          <el-menu-item index="solr"><router-link to="/solr">Solr</router-link></el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
