@@ -190,12 +190,13 @@ export default {
     },
 
     convertTimestamp() {
+      this.timestamp.calculated = {
+        value: null,
+        type: "",
+        tableData: []
+      };
+
       if (this.timestamp.userInput == null || this.timestamp.userInput === '') {
-        this.timestamp.calculated = {
-          value: null,
-          type: "",
-          tableData: []
-        };
         return;
       }
 
@@ -243,6 +244,12 @@ export default {
     },
 
     convertDatetime() {
+      this.timestamp.calculated = {
+        value: null,
+        type: "",
+        tableData: []
+      };
+
       if (this.timestamp.selectedDatetime == null || this.timestamp.selectedDatetime === '') {
         return;
       }
@@ -288,6 +295,8 @@ export default {
     },
 
     fetchHashId(event) {
+      this.hashId.calculated = "";
+
       if (this.hashId.userInput == null || this.hashId.userInput.length < 5) {
         return;
       }

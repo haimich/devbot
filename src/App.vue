@@ -12,11 +12,11 @@
 
     <el-row :gutter="style.gutter">
       <el-col :span="style.span" :offset="style.offset">
-        <el-menu :router="true" mode="horizontal">
-          <el-menu-item index=""><router-link to="/">Convert</router-link></el-menu-item>
-          <el-menu-item index="resend"><router-link to="/resend">Resend</router-link></el-menu-item>
-          <el-menu-item index="translate"><router-link to="/translate">Translate</router-link></el-menu-item>
-          <el-menu-item index="solr"><router-link to="/solr">Solr</router-link></el-menu-item>
+        <el-menu default-active="convert" :router="true" mode="horizontal">
+          <el-menu-item index="convert" :route="{name:'Convert'}">Convert</el-menu-item>
+          <el-menu-item index="solr" :route="{name:'Solr'}">Solr</el-menu-item>
+          <el-menu-item index="translate" :route="{name:'Translate'}">Translate</el-menu-item>
+          <el-menu-item index="resend" :route="{name:'Resend'}">Resend</el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
@@ -48,13 +48,18 @@ export default {
   name: 'app',
   data () {
     return {
+      menu: {
+        activeIndex: "convert",
+      },
       style: {
         gutter: 20,
-        offset: 5,
-        span: 14,
+        offset: 6,
+        span: 12,
       },
     };
   },
+  methods: {
+  }
 }
 </script>
 

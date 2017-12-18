@@ -10,7 +10,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '*',
+      redirect: '/convert',
+    },
+    {
+      path: '/convert',
       name: 'Convert',
       component: Convert
     },
