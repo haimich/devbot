@@ -16,7 +16,7 @@
         <el-form class="timestamp-form" label-width="100px">
 
           <el-form-item label="Input mode">
-            <el-radio-group v-model="timestamp.mode" size="medium">
+            <el-radio-group v-model="timestamp.mode" size="medium" @change="clearCalculated('timestamp')">
               <el-radio-button label="Timestamp"></el-radio-button>
               <el-radio-button label="Human Date"></el-radio-button>
             </el-radio-group>
@@ -47,6 +47,17 @@
               type="datetime"
               placeholder="Select date and time">
             </el-date-picker>
+          </el-form-item>
+
+          <el-form-item label="Timezone" style="margin-top: -10px;" v-if="timestamp.mode === 'Human Date'">
+            <el-select class="timestamp-select" v-model="timestamp.selectedTimezone">
+              <el-option
+                v-for="timezone in timestamp.timezones"
+                :key="timezone.value"
+                :label="timezone.label"
+                :value="timezone.value">
+              </el-option>
+            </el-select>
           </el-form-item>
 
         </el-form>
@@ -118,8 +129,16 @@ export default {
       timestamp: {
         current: this.getCurrentTimestamp(),
         mode: "Timestamp",
+        timezones: [{
+            value: "GMT",
+            label: "GMT"
+          }, {
+            value: "CET",
+            label: "CET"
+        }],
         userInput: "",
         selectedDatetime: null,
+        selectedTimezone: "GMT",
         calculated: {
           value: null,
           type: "",
@@ -171,11 +190,7 @@ export default {
     },
 
     convertTimestamp() {
-      this.timestamp.calculated = {
-        value: null,
-        type: "",
-        tableData: []
-      };
+      this.clearCalculated("timestamp");
 
       if (this.timestamp.userInput == null || this.timestamp.userInput === '') {
         return;
@@ -225,18 +240,14 @@ export default {
     },
 
     convertDatetime() {
-      this.timestamp.calculated = {
-        value: null,
-        type: "",
-        tableData: []
-      };
+      this.clearCalculated("timestamp");
 
       if (this.timestamp.selectedDatetime == null || this.timestamp.selectedDatetime === '') {
         return;
       }
 
       let value = this.timestamp.selectedDatetime;
-      var momentObj = moment(value);
+      var momentObj = moment.tz(value, this.timestamp.selectedTimezone);
 
       if (! momentObj.isValid()) {
         this.notify({ text: "Is not valid: " + value, duration: 2000 });
@@ -257,6 +268,16 @@ export default {
           time: cet.format("HH:mm:ss"),
           timezone: 'CET'
       }];
+    },
+
+    clearCalculated(section) {
+      if (section === "timestamp") {
+        this.timestamp.calculated = {
+          value: null,
+          type: "",
+          tableData: []
+        }
+      }
     },
 
     getCurrentTimestamp() {
@@ -293,7 +314,6 @@ export default {
 
   created() {
     this.startTimestampInterval();
-    
   },
 
   beforeDestroy() {
