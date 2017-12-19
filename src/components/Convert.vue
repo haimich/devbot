@@ -49,17 +49,6 @@
             </el-date-picker>
           </el-form-item>
 
-          <el-form-item label="Timezone" style="margin-top: -10px;">
-            <el-select class="timestamp-select" v-model="timestamp.selectedTimezone">
-              <el-option
-                v-for="timezone in timestamp.timezones"
-                :key="timezone.value"
-                :label="timezone.label"
-                :value="timezone.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-
         </el-form>
       </el-col>
 
@@ -129,16 +118,8 @@ export default {
       timestamp: {
         current: this.getCurrentTimestamp(),
         mode: "Timestamp",
-        timezones: [{
-            value: "GMT",
-            label: "GMT"
-          }, {
-            value: "CET",
-            label: "CET"
-        }],
         userInput: "",
         selectedDatetime: null,
-        selectedTimezone: "GMT",
         calculated: {
           value: null,
           type: "",
