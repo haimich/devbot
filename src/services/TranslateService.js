@@ -11,9 +11,6 @@ export default {
     })
       .then(response => {
         return;
-      })
-      .catch(err => {
-        return err;
       });
   },
 
@@ -32,9 +29,6 @@ export default {
       })
       .then(translations => {
         return translations;
-      })
-      .catch(err => {
-        return err;
       });
   }
 

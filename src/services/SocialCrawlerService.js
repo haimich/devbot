@@ -8,9 +8,6 @@ export default {
       })
       .then(stats => {
         return stats;
-      })
-      .catch(err => {
-        return err;
       });
   },
 

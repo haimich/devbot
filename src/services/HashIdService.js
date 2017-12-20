@@ -8,9 +8,6 @@ export default {
       })
       .then(resultId => {
         return resultId;
-      })
-      .catch(err => {
-        return err;
       });
   }
 

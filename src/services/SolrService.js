@@ -12,9 +12,6 @@ export default {
         }
 
         return servers;
-      })
-      .catch(err => {
-        return err;
       });
   },
 
