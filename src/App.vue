@@ -72,6 +72,11 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+a {
+  color: #409eff;
+  text-decoration: none;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

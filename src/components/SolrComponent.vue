@@ -2,7 +2,9 @@
   <div>
     <el-row :gutter="style.gutter">
 
-      <el-col :span="12">
+      <pre><code class="html"><html>asdas</html></code></pre>
+
+      <el-col :span="9">
         <el-form class="solr-form" label-width="100px">
 
           <el-form-item label="Environment">
@@ -65,14 +67,11 @@
       </el-col>
 
       <!-- Solr Results -->
-      <el-col class="results-container" v-if="solr.results != null" :span="12" style="padding-left: 14px; padding-right: 14px;">
+      <el-col class="results-container" v-if="solr.results != null" :span="15" style="padding-left: 14px; padding-right: 14px;">
         <el-row class="timestamp-results-header">
-          <div class="result-box" :title="this.solr.solrUrl">{{this.solr.solrUrl}}</div>
-          <div>Results: {{this.solr.numResults}}</div>
+          <div class="result-box"><a :href="this.solr.solrUrl" :title="this.solr.solrUrl" target="_blank">{{this.solr.solrUrl}}</a></div>
 
-          <pre>
-            <code class="json">{{this.solr.results}}</code>
-          </pre>
+          <pre class="result-json"><code class="json">{{this.solr.results}}</code></pre>
         </el-row>
       </el-col>
     </el-row>
@@ -142,11 +141,12 @@ export default {
             return;
           }
 
+          this.solr.solrUrl = response.data.url;
+
           var solrResults = response.data.solrResponse;
 
           this.solr.numResults = solrResults.response.numFound;
-          this.solr.solrUrl = response.data.url;
-          this.solr.results = solrResults.response.docs;
+          this.solr.results = solrResults;
         })
         .catch(response => {
           this.$notify({
@@ -162,14 +162,21 @@ export default {
 </script>
 
 <style scoped>
-  .result-box {
-    padding: 8px 16px;
-    background-color: #ecf8ff;
-    border-radius: 4px;
-    border-left: 5px solid #50bfff;
-    margin: 20px 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+
+.result-box {
+  padding: 11px 16px;
+  background-color: #ecf8ff;
+  border-radius: 4px;
+  border-left: 5px solid #50bfff;
+  margin-bottom: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-json {
+    overflow: scroll;
+    max-height: 600px;
+}
+
 </style>
