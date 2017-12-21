@@ -166,29 +166,6 @@ export default {
 
   methods: {
 
-    notify(options) {
-      if (options.duration === null || options.duration === undefined) {
-        options.duration = 0;
-      }
-
-      var message = "";
-      if (options.text != null) {
-        message = this.$createElement(
-          'span',
-          {
-            style: 'color: #525252; font-weight: 500;'
-          },
-          options.text
-        );
-      }
-
-      this.$notify({
-        title: options.title,
-        message: message,
-        duration: options.duration,
-      });
-    },
-
     convertTimestamp() {
       this.clearCalculated("timestamp");
 
@@ -201,7 +178,10 @@ export default {
       value = parseInt(value);
 
       if (isNaN(value)) {
-        this.notify({ text: "Is not a number: " + value, duration: 2000 });
+        this.$notify({
+          message: "Is not a number: " + value,
+          type: "warning",
+        });
         return;
       }
 
@@ -219,7 +199,10 @@ export default {
       }
       
       if (! momentObj.isValid()) {
-        this.notify({ text: "Is not valid: " + value, duration: 2000 });
+        this.$notify({
+          message: "Is not valid: " + value,
+          type: "warning",
+        });
         return;
       }
 
@@ -250,7 +233,10 @@ export default {
       var momentObj = moment.tz(value, this.timestamp.selectedTimezone);
 
       if (! momentObj.isValid()) {
-        this.notify({ text: "Is not valid: " + value, duration: 2000 });
+        this.$notify({
+          message: "Is not valid: " + value,
+          type: "warning",
+        });
         return;
       }
 

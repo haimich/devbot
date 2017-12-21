@@ -1,14 +1,9 @@
+import axios from 'axios';
 
 export default {
 
   addToQueue(mrId, env) {
-    return fetch("/backend/cdp/add?mrId=" + mrId + "&env=" + env)
-      .then(response => {
-        return response.text();
-      })
-      .then(result => {
-        return result;
-      });
+    return axios.get(`/backend/cdp/add?mrId=${mrId}&env=${env}`);
   }
 
 }

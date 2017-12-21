@@ -21,8 +21,7 @@
           <el-form-item label="Master Record Id">
             <el-input
               class="cdp-input"
-              type="number"
-              v-model.number="cdp.selectedMrId"
+              v-model="cdp.selectedMrId"
               placeholder="1512816794"
             ></el-input>
           </el-form-item>
@@ -49,7 +48,6 @@ export default {
       },
       environments: [
         { value: "development", label: "development" },
-        { value: "staging", label: "staging" },
         { value: "production", label: "production" },
       ],
       cdp: {
@@ -65,38 +63,22 @@ export default {
       this.cdp.isLoading = true;
 
       CdpService.addToQueue(this.cdp.selectedMrId, this.cdp.selectedEnv)
-        .then(status => {
-          this.notify({ text: status, duration: 2000 });
+        .then(response => {
           this.cdp.isLoading = false;
+
+          this.$notify({
+            message: "Success!",
+          });
         })
-        .catch(err => {
-          this.notify({ text: "Error: " + err, duration: 2000 });
+        .catch(response => {
+          this.$notify({
+            message: response.response.data,
+            type: "error",
+          });
           this.cdp.isLoading = false;
         });
     },
 
-    notify(options) {
-      if (options.duration === null || options.duration === undefined) {
-        options.duration = 0;
-      }
-
-      var message = "";
-      if (options.text != null) {
-        message = this.$createElement(
-          'span',
-          {
-            style: 'color: #525252; font-weight: 500;'
-          },
-          options.text
-        );
-      }
-
-      this.$notify({
-        title: options.title,
-        message: message,
-        duration: options.duration,
-      });
-    },
   }
 }
 </script>

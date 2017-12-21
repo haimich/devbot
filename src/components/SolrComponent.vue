@@ -102,7 +102,10 @@ export default {
   methods: {
     search() {
       if (this.solr.q == null) {
-        this.notify({ text: "Error: missing parameter 'q'", duration: 2000 });
+        this.$notify({
+          message: "Missing parameter 'q'",
+          type: "warning",
+        });
         return;
       }
 
@@ -112,45 +115,31 @@ export default {
         .then(response => {
           this.solr.isLoading = false;
 
-          if (response == null || response.data == null || response.data.response == null) {
-            this.notify({ text: "no response", duration: 2000 });
+          if (response == null || response.response == null || response.response.data == null) {
+            this.$notify({
+              message: "No response",
+              type: "warning",
+            });
             return;
           }
 
-          this.notify({ text: "success", duration: 2000 });
+          this.$notify({
+            message: "Success!",
+          });
 
           var results = response.data.response;
 
           console.log(results.numFound);
         })
-        .catch(err => {
-          this.notify({ text: "Error: " + err.response.data, duration: 2000 });
+        .catch(response => {
+          this.$notify({
+            message: response.response.data,
+            type: "error",
+          });
           this.solr.isLoading = false;
         });
     },
 
-    notify(options) {
-      if (options.duration === null || options.duration === undefined) {
-        options.duration = 0;
-      }
-
-      var message = "";
-      if (options.text != null) {
-        message = this.$createElement(
-          'span',
-          {
-            style: 'color: #525252; font-weight: 500;'
-          },
-          options.text
-        );
-      }
-
-      this.$notify({
-        title: options.title,
-        message: message,
-        duration: options.duration,
-      });
-    },
   }
 }
 </script>
