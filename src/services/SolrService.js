@@ -22,8 +22,8 @@ export default {
     return parser.hostname;
   },
 
-  search(env, q) {
-    return axios.get(`/backend/solr/search?env=${env}&q=${q}`);
+  search(env, q, silo, handler, rows) {
+    return axios.get(`/backend/solr/search?env=${env}&q=${q}&silo=${silo}&handler=${handler}&rows=${rows}`);
   },
 
 }

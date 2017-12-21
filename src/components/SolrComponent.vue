@@ -16,9 +16,43 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="Silo">
+            <el-select v-model="solr.selectedSilo">
+              <el-option
+                v-for="silo in silos"
+                :key="silo.value"
+                :label="silo.label"
+                :value="silo.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="Handler">
+            <el-select
+              v-model="solr.selectedHandler"
+              filterable
+              allow-create
+            >
+              <el-option
+                v-for="handler in handlers"
+                :key="handler.value"
+                :label="handler.label"
+                :value="handler.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="rows">
+            <el-input
+              type="number"
+              v-model.number="solr.rows"
+            ></el-input>
+          </el-form-item>
+
           <el-form-item label="q">
             <el-input
               v-model.number="solr.q"
+              placeholder="test"
             ></el-input>
           </el-form-item>
 
@@ -44,11 +78,22 @@ export default {
       },
       environments: [
         { value: "development", label: "development" },
-        { value: "staging", label: "staging" },
         { value: "production", label: "production" },
+      ],
+      silos: [
+        { value: "online", label: "online" },
+        { value: "social", label: "social" },
+        { value: "publisher", label: "publisher" },
+      ],
+      handlers: [
+        { value: "select", label: "select" },
+        { value: "select-nested", label: "select-nested" },
       ],
       solr: {
         selectedEnv: "production",
+        selectedSilo: "social",
+        selectedHandler: "select",
+        rows: 10,
         isLoading: false,
       }
     }
@@ -56,15 +101,30 @@ export default {
 
   methods: {
     search() {
+      if (this.solr.q == null) {
+        this.notify({ text: "Error: missing parameter 'q'", duration: 2000 });
+        return;
+      }
+
       this.solr.isLoading = true;
 
-      SolrService.search(this.solr.selectedEnv, this.solr.q)
-        .then(status => {
-          this.notify({ text: status, duration: 2000 });
+      SolrService.search(this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows)
+        .then(response => {
           this.solr.isLoading = false;
+
+          if (response == null || response.data == null || response.data.response == null) {
+            this.notify({ text: "no response", duration: 2000 });
+            return;
+          }
+
+          this.notify({ text: "success", duration: 2000 });
+
+          var results = response.data.response;
+
+          console.log(results.numFound);
         })
         .catch(err => {
-          this.notify({ text: "Error: " + err, duration: 2000 });
+          this.notify({ text: "Error: " + err.response.data, duration: 2000 });
           this.solr.isLoading = false;
         });
     },
