@@ -4,6 +4,8 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/default.css'
 
 import router from '@/router'
 import App from './App'
@@ -16,6 +18,8 @@ Vue.use(ElementUI, { locale })
 
 Vue.component('solr-widget', Widget);
 Vue.component('socialcrawler-widget', SocialCrawlerStatsWidget);
+
+hljs.initHighlightingOnLoad();
 
 new Vue({
   el: '#app',

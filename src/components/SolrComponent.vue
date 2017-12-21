@@ -61,6 +61,19 @@
           </el-col>
 
         </el-form>
+
+      </el-col>
+
+      <!-- Solr Results -->
+      <el-col class="results-container" v-if="solr.results != null" :span="12" style="padding-left: 14px; padding-right: 14px;">
+        <el-row class="timestamp-results-header">
+          <div class="result-box" :title="this.solr.solrUrl">{{this.solr.solrUrl}}</div>
+          <div>Results: {{this.solr.numResults}}</div>
+
+          <pre>
+            <code class="json">{{this.solr.results}}</code>
+          </pre>
+        </el-row>
       </el-col>
     </el-row>
   </div>
@@ -71,6 +84,7 @@ import SolrService from '@/services/SolrService';
 
 export default {
   name: 'Solr',
+
   data () {
     return {
       style: {
@@ -95,12 +109,17 @@ export default {
         selectedHandler: "select",
         rows: 10,
         isLoading: false,
+        numResults: null,
+        result: null,
+        solrUrl: "",
       }
     }
   },
 
   methods: {
     search() {
+      this.solr.result = null;
+
       if (this.solr.q == null) {
         this.$notify({
           message: "Missing parameter 'q'",
@@ -115,7 +134,7 @@ export default {
         .then(response => {
           this.solr.isLoading = false;
 
-          if (response == null || response.response == null || response.response.data == null) {
+          if (response == null || response.data == null || response.data.solrResponse == null) {
             this.$notify({
               message: "No response",
               type: "warning",
@@ -123,13 +142,11 @@ export default {
             return;
           }
 
-          this.$notify({
-            message: "Success!",
-          });
+          var solrResults = response.data.solrResponse;
 
-          var results = response.data.response;
-
-          console.log(results.numFound);
+          this.solr.numResults = solrResults.response.numFound;
+          this.solr.solrUrl = response.data.url;
+          this.solr.results = solrResults.response.docs;
         })
         .catch(response => {
           this.$notify({
@@ -145,5 +162,14 @@ export default {
 </script>
 
 <style scoped>
-
+  .result-box {
+    padding: 8px 16px;
+    background-color: #ecf8ff;
+    border-radius: 4px;
+    border-left: 5px solid #50bfff;
+    margin: 20px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>
