@@ -38,11 +38,14 @@ export default {
       SocialCrawlerService.getDailyStats()
         .then(response => {
           this.isLoading = false;
-          this.stats = response;
+          this.stats = response.data;
         })
         .catch(err => {
           this.isLoading = false;
-          console.log('oops', err);
+          this.$notify({
+            message: "Error fetcing Social Crawler stats",
+            type: "error",
+          });
         });
     }
   },

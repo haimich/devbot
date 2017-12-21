@@ -3,7 +3,7 @@ import axios from 'axios';
 export default {
 
   getActiveSolr() {
-    return axios.get("/backend/solr/active?env=production")
+    return axios.get(`/backend/solr/active?env=production`)
       .then(response => {
         var servers = response.data;
 

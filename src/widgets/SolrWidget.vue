@@ -34,7 +34,10 @@ export default {
         })
         .catch(err => {
           this.isLoading = false;
-          console.log('oops', err);
+          this.$notify({
+            message: "Error fetcing Active solr",
+            type: "error",
+          });
         });
     }
   },

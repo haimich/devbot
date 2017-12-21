@@ -49,15 +49,22 @@ export default {
   methods: {
     translateText() {
       TranslateService.translateText(this.translate.key, this.translate.english)
-        .then(response => {
+        .then(() => {
           this.translate = {
             key: '',
             english: '',
           };
 
-          this.notify({ text: "Success!", duration: 2000 });
+          this.$notify({
+            message: "Success!",
+          });
         })
-        .catch(err => console.log('oops', err));
+        .catch(err => {
+          this.$notify({
+            message: "Error",
+            type: "error",
+          });
+        });
     },
 
     fetchTranslations() {
@@ -65,19 +72,24 @@ export default {
         this.translate.english = "";
         
         TranslateService.fetchTranslations(this.translate.key)
-          .then(translations => {
+          .then(response => {
+            var translations = response.data;
+
             if (translations.length === 0) {
-                this.notify({ text: "Missing German translation. Reload site in browser!", duration: 2000 });
-                return;
+              this.$notify({
+                message: "Missing German translation. Reload site in browser!",
+                type: "warning",
+              });                
+              return;
             }
 
             let englishText = "";
 
             for (let translation of translations) {
-                if (translation.lang === "en") {
-                    englishText = translation.text;
-                    break;
-                }
+              if (translation.lang === "en") {
+                englishText = translation.text;
+                break;
+              }
             }
 
             if (englishText === "") {
@@ -86,34 +98,20 @@ export default {
               this.translate.english = englishText;
             }
           })
-          .catch(err => console.log('oops', err));
+          .catch(err => {
+            this.$notify({
+              message: "Error",
+              type: "error",
+            });
+          });
       } else if (this.translate.english != null && this.translate.english !== "") {
-        console.log("TODO");
+        this.$notify({
+          message: "Not implemented yet",
+          type: "warning",
+        });
       }
     },
 
-    notify(options) {
-      if (options.duration === null || options.duration === undefined) {
-        options.duration = 0;
-      }
-
-      var message = "";
-      if (options.text != null) {
-        message = this.$createElement(
-          'span',
-          {
-            style: 'color: #525252; font-weight: 500;'
-          },
-          options.text
-        );
-      }
-
-      this.$notify({
-        title: options.title,
-        message: message,
-        duration: options.duration,
-      });
-    },
   }
 }
 </script>

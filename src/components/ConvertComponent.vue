@@ -27,8 +27,7 @@
               <el-col :span="8">
                 <el-input
                   class="timestamp-input"
-                  type="number"
-                  v-model.number="timestamp.userInput"
+                  v-model="timestamp.userInput"
                   @input="convertTimestamp"
                   placeholder="1512816794"
                 ></el-input>

@@ -3,12 +3,9 @@ import axios from 'axios';
 export default {
 
   translateText(key, textEn) {
-    return fetch("/backend/translations", {
-      method: 'post',
-      body: JSON.stringify({
-        textKey: key,
-        textEN: textEn,
-      })
+    return axios.post(`/backend/translations`, {
+      textKey: key,
+      textEN: textEn,
     });
   },
 
@@ -16,15 +13,12 @@ export default {
     var url = "/backend/translations";
 
     if (key != null && key !== "") {
-      url += "?textKey=" + key;
+      url += `?textKey=${key}`;
     } else if (textEn != null && textEn !== "") {
-      url += "?textEn=" + textEn;
+      url += `?textEn=${textEn}`;
     }
 
-    return fetch(url)
-      .then(response => {
-        return response.json();
-      });
+    return axios.get(url);
   }
 
 }
