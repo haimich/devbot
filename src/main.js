@@ -7,15 +7,15 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import router from '@/router'
 import App from './App'
-import Solr from '@/widgets/Solr'
-import SocialCrawlerStats from '@/widgets/SocialCrawlerStats'
+import Widget from '@/widgets/SolrWidget'
+import SocialCrawlerStatsWidget from '@/widgets/SocialCrawlerStatsWidget'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { locale })
 
-Vue.component('solr-widget', Solr);
-Vue.component('socialcrawler-widget', SocialCrawlerStats);
+Vue.component('solr-widget', Widget);
+Vue.component('socialcrawler-widget', SocialCrawlerStatsWidget);
 
 new Vue({
   el: '#app',
