@@ -7,7 +7,7 @@
         </div>
         <div class="content">
           <div v-for="stat in stats" :key="stat.date" class="item">
-            <h3 class="widget-heading">{{stat.date}}</h3>
+            <h4 class="widget-heading">{{stat.date}}</h4>
             <ul class="widget-list">
               <li>Facebook: {{stat.Facebook}}</li>
               <li>YouTube: {{stat.Youtube}}</li>

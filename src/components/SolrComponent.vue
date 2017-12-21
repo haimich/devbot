@@ -2,10 +2,8 @@
   <div>
     <el-row :gutter="style.gutter">
 
-      <pre><code class="html"><html>asdas</html></code></pre>
-
       <el-col :span="9">
-        <el-form class="solr-form" label-width="100px">
+        <el-form class="solr-form" label-width="100px" @submit="search">
 
           <el-form-item label="Environment">
             <el-select v-model="solr.selectedEnv">
@@ -48,6 +46,7 @@
             <el-input
               type="number"
               v-model.number="solr.rows"
+              @keyup.enter.native="search"
             ></el-input>
           </el-form-item>
 
@@ -55,10 +54,11 @@
             <el-input
               v-model.number="solr.q"
               placeholder="test"
+              @keyup.enter.native="search"
             ></el-input>
           </el-form-item>
 
-          <el-col :span="19" style="display: flex; justify-content: flex-end;">
+          <el-col :span="24" style="display: flex; justify-content: flex-end;">
               <el-button type="primary" :loading="solr.isLoading" @click="search">Search</el-button>
           </el-col>
 
@@ -67,11 +67,11 @@
       </el-col>
 
       <!-- Solr Results -->
-      <el-col class="results-container" v-if="solr.results != null" :span="15" style="padding-left: 14px; padding-right: 14px;">
+      <el-col class="results-container" v-if="solr.results != null" :span="15" style="padding-left: 14px;">
         <el-row class="timestamp-results-header">
           <div class="result-box"><a :href="this.solr.solrUrl" :title="this.solr.solrUrl" target="_blank">{{this.solr.solrUrl}}</a></div>
 
-          <pre class="result-json"><code class="json">{{this.solr.results}}</code></pre>
+          <pre v-highlightjs="this.solr.resultString"><code class="json"></code></pre>
         </el-row>
       </el-col>
     </el-row>
@@ -109,7 +109,8 @@ export default {
         rows: 10,
         isLoading: false,
         numResults: null,
-        result: null,
+        results: null,
+        resultString: "",
         solrUrl: "",
       }
     }
@@ -129,6 +130,12 @@ export default {
 
       this.solr.isLoading = true;
 
+      // reset parameters
+      this.solr.numResults = null;
+      this.solr.results = null;
+      this.solr.resultString = "";
+      this.solr.solrUrl = "";
+
       SolrService.search(this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows)
         .then(response => {
           this.solr.isLoading = false;
@@ -147,6 +154,8 @@ export default {
 
           this.solr.numResults = solrResults.response.numFound;
           this.solr.results = solrResults;
+
+          this.solr.resultString = JSON.stringify(solrResults, null, 2);
         })
         .catch(response => {
           this.$notify({

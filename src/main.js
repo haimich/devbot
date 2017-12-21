@@ -4,22 +4,21 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/default.css'
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/atom-one-light.css'
 
 import router from '@/router'
 import App from './App'
-import Widget from '@/widgets/SolrWidget'
+import SolrWidget from '@/widgets/SolrWidget'
 import SocialCrawlerStatsWidget from '@/widgets/SocialCrawlerStatsWidget'
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI, { locale });
+Vue.use(VueHighlightJS);
 
-Vue.component('solr-widget', Widget);
+Vue.component('solr-widget', SolrWidget);
 Vue.component('socialcrawler-widget', SocialCrawlerStatsWidget);
-
-hljs.initHighlightingOnLoad();
 
 new Vue({
   el: '#app',
