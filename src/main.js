@@ -7,8 +7,8 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import router from '@/router'
 import App from './App'
-import Solr from '@/components/widgets/Solr'
-import SocialCrawlerStats from '@/components/widgets/SocialCrawlerStats'
+import Solr from '@/widgets/Solr'
+import SocialCrawlerStats from '@/widgets/SocialCrawlerStats'
 
 Vue.config.productionTip = false
 
