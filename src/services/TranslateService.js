@@ -8,10 +8,7 @@ export default {
         textKey: key,
         textEN: textEn,
       })
-    })
-      .then(response => {
-        return;
-      });
+    });
   },
 
   fetchTranslations(key, textEn) {
@@ -26,9 +23,6 @@ export default {
     return fetch(url)
       .then(response => {
         return response.json();
-      })
-      .then(translations => {
-        return translations;
       });
   }
 

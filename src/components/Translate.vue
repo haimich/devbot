@@ -21,7 +21,7 @@
 
           <el-col :span="24" style="display: flex; justify-content: flex-end;">
               <el-button @click="fetchTranslations">Fetch</el-button>
-              <el-button type="primary" @click="translateText">Translate</el-button>
+              <el-button type="danger" @click="translateText">Translate</el-button>
           </el-col>
 
         </el-col>

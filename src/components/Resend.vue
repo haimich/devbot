@@ -8,7 +8,7 @@
         <el-form class="resend-form" label-width="120px">
 
           <el-form-item label="Environment">
-            <el-select class="cdp-select" v-model="cdp.selectedEnv">
+            <el-select v-model="cdp.selectedEnv">
               <el-option
                 v-for="env in environments"
                 :key="env.value"
