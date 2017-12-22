@@ -52,8 +52,15 @@
 
           <el-form-item label="q">
             <el-input
-              v-model.number="solr.q"
+              v-model="solr.q"
               placeholder="test"
+              @keyup.enter.native="search"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="fl">
+            <el-input
+              v-model="solr.fl"
               @keyup.enter.native="search"
             ></el-input>
           </el-form-item>
@@ -107,6 +114,8 @@ export default {
         selectedSilo: "social",
         selectedHandler: "select",
         rows: 10,
+        q: "",
+        fl: "*",
         isLoading: false,
         numResults: null,
         results: null,
@@ -136,7 +145,7 @@ export default {
       this.solr.resultString = "";
       this.solr.solrUrl = "";
 
-      SolrService.search(this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows)
+      SolrService.search(this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl)
         .then(response => {
           this.solr.isLoading = false;
 
