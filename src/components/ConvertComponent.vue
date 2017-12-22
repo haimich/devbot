@@ -105,7 +105,8 @@
         </el-form>
       </el-col>
 
-      <el-col class="results-container" v-if="hashId.calculated !== ''" :span="3" style="padding: 20px;">
+      <!-- Hash ID Results -->
+      <el-col class="results-container" v-if="hashId.calculated !== ''" :span="4" style="padding: 20px;">
         <div style="text-align: center">{{hashId.calculated}}</div>
       </el-col>
     </el-row>
