@@ -57,8 +57,8 @@ export default {
       },
       style: {
         gutter: 20,
-        offset: 6,
-        span: 12,
+        offset: 5,
+        span: 14,
       },
     };
   },

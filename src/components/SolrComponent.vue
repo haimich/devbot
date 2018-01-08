@@ -6,14 +6,10 @@
         <el-form class="solr-form" label-width="100px" @submit="search">
 
           <el-form-item label="Environment">
-            <el-select v-model="solr.selectedEnv">
-              <el-option
-                v-for="env in environments"
-                :key="env.value"
-                :label="env.label"
-                :value="env.value">
-              </el-option>
-            </el-select>
+            <el-radio-group v-model="solr.selectedEnv" size="middle">
+              <el-radio-button label="production"></el-radio-button>
+              <el-radio-button label="development"></el-radio-button>
+            </el-radio-group>
           </el-form-item>
 
           <el-form-item label="Solr">
@@ -27,7 +23,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="Silo">
+          <el-form-item label="Silo/Core">
             <el-select v-model="solr.selectedSilo">
               <el-option
                 v-for="silo in getSilosForSelectedServer()"
@@ -87,7 +83,7 @@
       <!-- Solr Results -->
       <el-col class="results-container" v-if="solr.results != null" :span="15" style="padding-left: 14px;">
         <el-row class="timestamp-results-header">
-          <div class="result-box"><a :href="this.solr.solrUrl" :title="this.solr.solrUrl" target="_blank">{{this.solr.solrUrl}}</a></div>
+          <div class="result-box"><a :href="this.solr.solrUrl" title="Open Solr query" target="_blank">{{this.solr.solrUrl}}</a></div>
 
           <pre v-highlightjs="this.solr.resultString"><code class="json"></code></pre>
         </el-row>
@@ -114,6 +110,8 @@ export default {
       solrServers: [
         { value: "articles", label: "Articles" },
         { value: "companies", label: "Companies" },
+        { value: "employees", label: "Employees" },
+        { value: "alerting", label: "Alerting" },
       ],
       silos: {
         articlesSolr: [
@@ -121,8 +119,15 @@ export default {
           { value: "social", label: "social" },
           { value: "publisher", label: "publisher" },
         ],
+        alertingSolr: [
+          { value: "online", label: "online" },
+          { value: "social", label: "social" },
+        ],
         companiesSolr: [
           { value: "eb-companies-fresh", label: "eb-companies-fresh" },
+        ],
+        employeesSolr: [
+          { value: "employees", label: "employees" },
         ],
       },
       handlers: [
@@ -148,25 +153,14 @@ export default {
 
   watch: {
     'solr.selectedSolrServer': function() {
-      if (this.solr.selectedSolrServer === "articles") {
-        this.solr.selectedSilo = this.silos.articlesSolr[0].value;
-      } else if (this.solr.selectedSolrServer === "companies") {
-        this.solr.selectedSilo = this.silos.companiesSolr[0].value;
-      } else {
-        this.solr.selectedSilo = "";
-      }
+      // select first silo
+      this.solr.selectedSilo = this.silos[this.solr.selectedSolrServer + "Solr"][0].value;
     },
   },
 
   methods: {
     getSilosForSelectedServer() {
-      if (this.solr.selectedSolrServer === "articles") {
-        return this.silos.articlesSolr;
-      } else if (this.solr.selectedSolrServer === "companies") {
-        return this.silos.companiesSolr;
-      } else {
-        return [];
-      }
+      return this.silos[this.solr.selectedSolrServer + "Solr"];
     },
     search() {
       this.solr.result = null;
@@ -232,6 +226,11 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.result-box:hover {
+  white-space: normal;
+  overflow: auto;
 }
 
 .result-json {
