@@ -49,14 +49,6 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="rows">
-            <el-input
-              type="number"
-              v-model.number="solr.rows"
-              @keyup.enter.native="search"
-            ></el-input>
-          </el-form-item>
-
           <el-form-item label="q">
             <el-input
               v-model="solr.q"
@@ -68,6 +60,22 @@
           <el-form-item label="fl">
             <el-input
               v-model="solr.fl"
+              @keyup.enter.native="search"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="sort">
+            <el-input
+              v-model="solr.sort"
+              @keyup.enter.native="search"
+              placeholder="id desc"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="rows">
+            <el-input
+              type="number"
+              v-model.number="solr.rows"
               @keyup.enter.native="search"
             ></el-input>
           </el-form-item>
@@ -141,6 +149,7 @@ export default {
         selectedHandler: "select",
         rows: 10,
         q: "*:*",
+        sort: "",
         fl: "*",
         isLoading: false,
         numResults: null,
@@ -181,7 +190,7 @@ export default {
       this.solr.resultString = "";
       this.solr.solrUrl = "";
 
-      SolrService.search(this.solr.selectedSolrServer, this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl)
+      SolrService.search(this.solr.selectedSolrServer, this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl, this.solr.sort)
         .then(response => {
           this.solr.isLoading = false;
 
