@@ -16,10 +16,21 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="Solr">
+            <el-select v-model="solr.selectedSolrServer">
+              <el-option
+                v-for="env in solrServers"
+                :key="env.value"
+                :label="env.label"
+                :value="env.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="Silo">
             <el-select v-model="solr.selectedSilo">
               <el-option
-                v-for="silo in silos"
+                v-for="silo in getSilosForSelectedServer()"
                 :key="silo.value"
                 :label="silo.label"
                 :value="silo.value">
@@ -100,21 +111,31 @@ export default {
         { value: "development", label: "development" },
         { value: "production", label: "production" },
       ],
-      silos: [
-        { value: "online", label: "online" },
-        { value: "social", label: "social" },
-        { value: "publisher", label: "publisher" },
+      solrServers: [
+        { value: "articles", label: "Articles" },
+        { value: "companies", label: "Companies" },
       ],
+      silos: {
+        articlesSolr: [
+          { value: "online", label: "online" },
+          { value: "social", label: "social" },
+          { value: "publisher", label: "publisher" },
+        ],
+        companiesSolr: [
+          { value: "eb-companies-fresh", label: "eb-companies-fresh" },
+        ],
+      },
       handlers: [
         { value: "select", label: "select" },
         { value: "select-nested", label: "select-nested" },
       ],
       solr: {
+        selectedSolrServer: "articles",
         selectedEnv: "production",
         selectedSilo: "social",
         selectedHandler: "select",
         rows: 10,
-        q: "",
+        q: "*:*",
         fl: "*",
         isLoading: false,
         numResults: null,
@@ -125,7 +146,28 @@ export default {
     }
   },
 
+  watch: {
+    'solr.selectedSolrServer': function() {
+      if (this.solr.selectedSolrServer === "articles") {
+        this.solr.selectedSilo = this.silos.articlesSolr[0].value;
+      } else if (this.solr.selectedSolrServer === "companies") {
+        this.solr.selectedSilo = this.silos.companiesSolr[0].value;
+      } else {
+        this.solr.selectedSilo = "";
+      }
+    },
+  },
+
   methods: {
+    getSilosForSelectedServer() {
+      if (this.solr.selectedSolrServer === "articles") {
+        return this.silos.articlesSolr;
+      } else if (this.solr.selectedSolrServer === "companies") {
+        return this.silos.companiesSolr;
+      } else {
+        return [];
+      }
+    },
     search() {
       this.solr.result = null;
 
@@ -145,7 +187,7 @@ export default {
       this.solr.resultString = "";
       this.solr.solrUrl = "";
 
-      SolrService.search(this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl)
+      SolrService.search(this.solr.selectedSolrServer, this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl)
         .then(response => {
           this.solr.isLoading = false;
 

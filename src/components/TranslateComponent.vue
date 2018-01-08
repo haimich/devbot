@@ -8,7 +8,10 @@
         <el-col :span="12">
 
           <el-form-item label="Key">
-              <el-input v-model="translate.key"></el-input>
+              <el-input
+                v-model="translate.key"
+                @keyup.enter.native="fetchTranslations"
+              ></el-input>
           </el-form-item>
 
           <el-form-item label="German">
@@ -77,7 +80,7 @@ export default {
 
             if (translations.length === 0) {
               this.$notify({
-                message: "Missing German translation. Reload site in browser!",
+                message: "Missing German translation. Try to reload site in browser!",
                 type: "warning",
               });                
               return;

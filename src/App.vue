@@ -4,7 +4,7 @@
     <el-row :gutter="style.gutter">
       <el-col :span="style.span" :offset="style.offset">
         <div class="header">
-          <h2 class="logo-text"><router-link to="/">devbot</router-link></h2>
+          <h2 class="logo-text"><router-link to="/">{{name}}</router-link></h2>
           <span class="snuffles"></span>
         </div>
       </el-col>
@@ -51,6 +51,7 @@ export default {
   name: 'app',
   data () {
     return {
+      name: 'devtools',
       menu: {
         activeIndex: "convert",
       },
