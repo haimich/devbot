@@ -117,7 +117,7 @@
 
     <el-row :gutter="style.gutter">
       
-      <el-col :span="12">
+      <el-col :span="10">
         <el-form>
             <el-form-item label="Input" label-width="100px" style="margin-bottom: 0">
               <el-input
@@ -135,8 +135,8 @@
       </el-col>
 
       <!-- Encode/Decode Results -->
-      <el-col class="results-container" v-if="encode.calculated !== ''" :span="4" style="padding: 20px;">
-        <div style="text-align: center">{{encode.calculated}}</div>
+      <el-col v-if="encode.calculated !== ''" :span="14">
+        <div class="result-box">{{encode.calculated}}</div>
       </el-col>
       
     </el-row>
@@ -337,9 +337,9 @@ export default {
 
     encodeDecode() {
       if (this.encode.reverse) {
-        this.encode.calculated = decodeURI(this.encode.userInput);
+        this.encode.calculated = decodeURIComponent(this.encode.userInput);
       } else {
-        this.encode.calculated = encodeURI(this.encode.userInput);
+        this.encode.calculated = encodeURIComponent(this.encode.userInput);
       }
     }
 

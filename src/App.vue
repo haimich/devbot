@@ -132,4 +132,21 @@ a {
   margin: 8px 0 12px 0;
 }
 
+.result-box {
+  padding: 11px 16px;
+  background-color: #ecf8ff;
+  border-radius: 4px;
+  border-left: 5px solid #50bfff;
+  margin-bottom: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-box:hover {
+  white-space: normal;
+  overflow: auto;
+   text-overflow: initial;
+}
+
 </style>

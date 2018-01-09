@@ -96,7 +96,7 @@
       </el-col>
 
       <!-- Solr Results -->
-      <el-col class="results-container" v-if="solr.results != null || solr.solrUrl != null" :span="15" style="padding-left: 14px;">
+      <el-col v-if="solr.results != null || solr.solrUrl != null" :span="15" style="padding-left: 14px;">
         <el-row class="timestamp-results-header">
           <div class="result-box"><a :href="this.solr.solrUrl" title="Open Solr query" target="_blank">{{this.solr.solrUrl}}</a></div>
 
@@ -246,22 +246,6 @@ export default {
 </script>
 
 <style scoped>
-
-.result-box {
-  padding: 11px 16px;
-  background-color: #ecf8ff;
-  border-radius: 4px;
-  border-left: 5px solid #50bfff;
-  margin-bottom: 22px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.result-box:hover {
-  white-space: normal;
-  overflow: auto;
-}
 
 .result-json {
     overflow: scroll;
