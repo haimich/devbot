@@ -51,7 +51,6 @@
 
           <el-form-item label="q">
             <el-input
-              type="textarea"
               v-model="solr.q"
               @keyup.enter.native="search"
             ></el-input>
@@ -97,11 +96,11 @@
       </el-col>
 
       <!-- Solr Results -->
-      <el-col class="results-container" v-if="solr.results != null" :span="15" style="padding-left: 14px;">
+      <el-col class="results-container" v-if="solr.results != null || solr.solrUrl != null" :span="15" style="padding-left: 14px;">
         <el-row class="timestamp-results-header">
           <div class="result-box"><a :href="this.solr.solrUrl" title="Open Solr query" target="_blank">{{this.solr.solrUrl}}</a></div>
 
-          <pre v-highlightjs="this.solr.resultString"><code class="json"></code></pre>
+          <pre v-highlightjs="this.solr.resultString" v-if="solr.results != null"><code class="json"></code></pre>
         </el-row>
       </el-col>
     </el-row>
@@ -124,13 +123,13 @@ export default {
         { value: "production", label: "production" },
       ],
       solrServers: [
-        { value: "articles", label: "Articles" },
+        { value: "news", label: "News" },
         { value: "companies", label: "Companies" },
         { value: "employees", label: "Employees" },
         { value: "alerting", label: "Alerting" },
       ],
       silos: {
-        articlesSolr: [
+        newsSolr: [
           { value: "online", label: "online" },
           { value: "social", label: "social" },
           { value: "publisher", label: "publisher" },
@@ -151,7 +150,7 @@ export default {
         { value: "select-nested", label: "select-nested" },
       ],
       solr: {
-        selectedSolrServer: "articles",
+        selectedSolrServer: "news",
         selectedEnv: "production",
         selectedSilo: "social",
         selectedHandler: "select",
@@ -164,7 +163,7 @@ export default {
         numResults: null,
         results: null,
         resultString: "",
-        solrUrl: "",
+        solrUrl: null,
       }
     }
   },
@@ -181,7 +180,7 @@ export default {
       return this.silos[this.solr.selectedSolrServer + "Solr"];
     },
     
-    search() {
+    search(event) {
       this.solr.result = null;
 
       if (this.solr.q == null) {
@@ -195,10 +194,10 @@ export default {
       this.solr.isLoading = true;
 
       // reset parameters
-      this.solr.numResults = null;
+      this.solr.solrUrl = null;
       this.solr.results = null;
+      this.solr.numResults = null;
       this.solr.resultString = "";
-      this.solr.solrUrl = "";
 
       SolrService.search(
         this.solr.selectedSolrServer,
@@ -213,11 +212,12 @@ export default {
       ).then(response => {
           this.solr.isLoading = false;
 
-          if (response == null || response.data == null || response.data.solrResponse == null) {
+          if (response == null || response.data == null) {
             this.$notify({
               message: "No response",
               type: "warning",
             });
+
             return;
           }
 
@@ -225,10 +225,12 @@ export default {
 
           var solrResults = response.data.solrResponse;
 
-          this.solr.numResults = solrResults.response.numFound;
-          this.solr.results = solrResults;
+          if (solrResults != null) {
+            this.solr.numResults = solrResults.response.numFound;
+            this.solr.results = solrResults;
 
-          this.solr.resultString = JSON.stringify(solrResults, null, 2);
+            this.solr.resultString = JSON.stringify(solrResults, null, 2);
+          }
         })
         .catch(response => {
           this.$notify({

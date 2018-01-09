@@ -26,6 +26,8 @@ export default {
     rawQueryParams = rawQueryParams.replace("=", "%3D");
     rawQueryParams = rawQueryParams.replace("&", "%26");
 
+    q = encodeURI(q);
+
     return axios.get(`/backend/solr/search?solrServer=${selectedSolrServer}&env=${env}&q=${q}&silo=${silo}&handler=${handler}&rows=${rows}&fl=${fl}&sort=${sort}&rawQueryParams=${rawQueryParams}`);
   },
 

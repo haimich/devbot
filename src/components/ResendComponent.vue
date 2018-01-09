@@ -8,14 +8,24 @@
         <el-form class="resend-form" label-width="120px">
 
           <el-form-item label="Environment">
-            <el-select v-model="cdp.selectedEnv">
-              <el-option
-                v-for="env in environments"
-                :key="env.value"
-                :label="env.label"
-                :value="env.value">
-              </el-option>
-            </el-select>
+            <el-radio-group v-model="cdp.selectedEnv" size="middle">
+              <el-radio-button label="production"></el-radio-button>
+              <el-radio-button label="development"></el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="Priority">
+            <el-radio-group v-model="cdp.prio" size="middle">
+              <el-radio-button label="0"></el-radio-button>
+              <el-radio-button label="1"></el-radio-button>
+              <el-radio-button label="2"></el-radio-button>
+            </el-radio-group>
+
+            <span class="cdp-prio-info">
+              <span v-if="cdp.prio == 0">normal</span>
+              <span v-else-if="cdp.prio == 1">high</span>
+              <span v-else-if="cdp.prio == 2">online (solr update)</span>
+            </span>
           </el-form-item>
 
           <el-form-item label="Master Record Id">
@@ -46,13 +56,10 @@ export default {
       style: {
         gutter: 12,
       },
-      environments: [
-        { value: "development", label: "development" },
-        { value: "production", label: "production" },
-      ],
       cdp: {
-        selectedEnv: "development",
+        selectedEnv: "production",
         selectedMrId: null,
+        prio: 0,
         isLoading: false,
       }
     }
@@ -62,7 +69,7 @@ export default {
     resendMasterRecord() {
       this.cdp.isLoading = true;
 
-      CdpService.addToQueue(this.cdp.selectedMrId, this.cdp.selectedEnv)
+      CdpService.addToQueue(this.cdp.selectedMrId, this.cdp.selectedEnv, this.cdp.prio)
         .then(response => {
           this.cdp.isLoading = false;
 
@@ -84,7 +91,14 @@ export default {
 </script>
 
 <style scoped>
+
 .cdp-input {
   width: 235px;
 }
+
+.cdp-prio-info {
+  color: #a2a2a2;
+  margin-left: 5px;
+}
+
 </style>
