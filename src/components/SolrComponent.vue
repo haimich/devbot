@@ -3,7 +3,7 @@
     <el-row :gutter="style.gutter">
 
       <el-col :span="9">
-        <el-form class="solr-form" label-width="100px" @submit="search">
+        <el-form class="solr-form" label-width="160px" label-position="right" @submit="search">
 
           <el-form-item label="Environment">
             <el-radio-group v-model="solr.selectedEnv" size="middle">
@@ -51,15 +51,8 @@
 
           <el-form-item label="q">
             <el-input
+              type="textarea"
               v-model="solr.q"
-              placeholder="test"
-              @keyup.enter.native="search"
-            ></el-input>
-          </el-form-item>
-
-          <el-form-item label="fl">
-            <el-input
-              v-model="solr.fl"
               @keyup.enter.native="search"
             ></el-input>
           </el-form-item>
@@ -77,6 +70,21 @@
               type="number"
               v-model.number="solr.rows"
               @keyup.enter.native="search"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="fl">
+            <el-input
+              v-model="solr.fl"
+              @keyup.enter.native="search"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="Raw Query Parameters">
+            <el-input
+              v-model="solr.rawQueryParams"
+              @keyup.enter.native="search"
+              placeholder="key1=val&key2=val"
             ></el-input>
           </el-form-item>
 
@@ -151,6 +159,7 @@ export default {
         q: "*:*",
         sort: "",
         fl: "*",
+        rawQueryParams: "",
         isLoading: false,
         numResults: null,
         results: null,
@@ -171,6 +180,7 @@ export default {
     getSilosForSelectedServer() {
       return this.silos[this.solr.selectedSolrServer + "Solr"];
     },
+    
     search() {
       this.solr.result = null;
 
@@ -190,8 +200,17 @@ export default {
       this.solr.resultString = "";
       this.solr.solrUrl = "";
 
-      SolrService.search(this.solr.selectedSolrServer, this.solr.selectedEnv, this.solr.q, this.solr.selectedSilo, this.solr.selectedHandler, this.solr.rows, this.solr.fl, this.solr.sort)
-        .then(response => {
+      SolrService.search(
+        this.solr.selectedSolrServer,
+        this.solr.selectedEnv,
+        this.solr.q,
+        this.solr.selectedSilo,
+        this.solr.selectedHandler,
+        this.solr.rows,
+        this.solr.fl,
+        this.solr.sort,
+        this.solr.rawQueryParams,
+      ).then(response => {
           this.solr.isLoading = false;
 
           if (response == null || response.data == null || response.data.solrResponse == null) {

@@ -22,8 +22,11 @@ export default {
     return parser.hostname;
   },
 
-  search(selectedSolrServer, env, q, silo, handler, rows, fl, sort) {
-    return axios.get(`/backend/solr/search?solrServer=${selectedSolrServer}&env=${env}&q=${q}&silo=${silo}&handler=${handler}&rows=${rows}&fl=${fl}&sort=${sort}`);
+  search(selectedSolrServer, env, q, silo, handler, rows, fl, sort, rawQueryParams) {
+    rawQueryParams = rawQueryParams.replace("=", "%3D");
+    rawQueryParams = rawQueryParams.replace("&", "%26");
+
+    return axios.get(`/backend/solr/search?solrServer=${selectedSolrServer}&env=${env}&q=${q}&silo=${silo}&handler=${handler}&rows=${rows}&fl=${fl}&sort=${sort}&rawQueryParams=${rawQueryParams}`);
   },
 
 }
