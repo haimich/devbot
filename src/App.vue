@@ -51,7 +51,7 @@ export default {
   name: 'app',
   data () {
     return {
-      name: 'devtools',
+      name: 'devtool',
       menu: {
         activeIndex: "convert",
       },

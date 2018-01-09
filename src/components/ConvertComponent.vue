@@ -109,6 +109,36 @@
       <el-col class="results-container" v-if="hashId.calculated !== ''" :span="4" style="padding: 20px;">
         <div style="text-align: center">{{hashId.calculated}}</div>
       </el-col>
+
+    </el-row>
+
+    <!-- Encode/Decode -->
+    <h3 class="section-heading">URL Encode/Decode</h3>
+
+    <el-row :gutter="style.gutter">
+      
+      <el-col :span="12">
+        <el-form>
+            <el-form-item label="Input" label-width="100px" style="margin-bottom: 0">
+              <el-input
+                class="encode-input"
+                v-model="encode.userInput"
+                :placeholder="encode.reverse ? 'key=the%20value' : 'key=the value'"
+                @input="encodeDecode"
+              ></el-input>
+            </el-form-item>
+
+            <el-form-item label="Reverse" label-width="100px">
+              <el-switch v-model="encode.reverse"></el-switch>
+            </el-form-item>
+        </el-form>
+      </el-col>
+
+      <!-- Encode/Decode Results -->
+      <el-col class="results-container" v-if="encode.calculated !== ''" :span="4" style="padding: 20px;">
+        <div style="text-align: center">{{encode.calculated}}</div>
+      </el-col>
+      
     </el-row>
     
   </div>
@@ -150,6 +180,11 @@ export default {
         calculated: "",
         reverse: false,
       },
+      encode: {
+        userInput: "",
+        calculated: "",
+        reverse: false,
+      },
     }
   },
 
@@ -161,6 +196,10 @@ export default {
     'hashId.reverse': function() {
       this.hashId.userInput = "";
       this.hashId.calculated = "";
+    },
+    'encode.reverse': function() {
+      this.encode.userInput = "";
+      this.encode.calculated = "";
     },
   },
 
@@ -296,6 +335,14 @@ export default {
         .catch(err => console.log('oops', err));
     },
 
+    encodeDecode() {
+      if (this.encode.reverse) {
+        this.encode.calculated = decodeURI(this.encode.userInput);
+      } else {
+        this.encode.calculated = encodeURI(this.encode.userInput);
+      }
+    }
+
   },
 
   created() {
@@ -310,7 +357,7 @@ export default {
 </script>
 
 <style scoped>
-.timestamp-input, .datetime-input, .timestamp-select, .hashid-input {
+.timestamp-input, .datetime-input, .timestamp-select, .hashid-input, .encode-input {
   width: 235px;
 }
 
