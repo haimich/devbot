@@ -123,7 +123,7 @@
               <el-input
                 class="encode-input"
                 v-model="encode.userInput"
-                :placeholder="encode.reverse ? 'key=the%20value' : 'key=the value'"
+                :placeholder="encode.reverse ? 'key=the value' : 'key=the%20value'"
                 @input="encodeDecode"
               ></el-input>
             </el-form-item>
@@ -337,9 +337,9 @@ export default {
 
     encodeDecode() {
       if (this.encode.reverse) {
-        this.encode.calculated = decodeURIComponent(this.encode.userInput);
-      } else {
         this.encode.calculated = encodeURIComponent(this.encode.userInput);
+      } else {
+        this.encode.calculated = decodeURIComponent(this.encode.userInput);
       }
     }
 

@@ -146,7 +146,8 @@ a {
 .result-box:hover {
   white-space: normal;
   overflow: auto;
-   text-overflow: initial;
+  text-overflow: initial;
+  word-wrap: break-word;
 }
 
 </style>
