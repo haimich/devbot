@@ -35,14 +35,6 @@
       <el-col :span="style.span" :offset="style.offset">&nbsp;</el-col>
     </el-row>
 
-    <el-row :gutter="style.gutter">
-      <el-col :span="1" :offset="style.offset">
-        <solr-widget></solr-widget>
-      </el-col>
-      <el-col :span="1" :offset="3">
-        <socialcrawler-widget></socialcrawler-widget>
-      </el-col>
-    </el-row>
   </div>
 </template>
 

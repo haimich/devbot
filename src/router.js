@@ -4,6 +4,8 @@ import ConvertComponent from '@/components/ConvertComponent'
 import ResendComponent from '@/components/ResendComponent'
 import TranslateComponent from '@/components/TranslateComponent'
 import SolrComponent from '@/components/SolrComponent'
+import AuthComponent from '@/components/AuthComponent'
+import Auth from './services/auth.js';
 
 Vue.use(Router)
 
@@ -12,26 +14,64 @@ export default new Router({
     {
       path: '*',
       redirect: '/convert',
+      meta: { requiresAuth: true }
     },
     {
       path: '/convert',
       name: 'Convert',
-      component: ConvertComponent
+      component: ConvertComponent,
+      meta: { requiresAuth: true }
     },
     {
       path: '/resend',
       name: 'Resend',
-      component: ResendComponent
+      component: ResendComponent,
+      meta: { requiresAuth: true }
     },
     {
       path: '/translate',
       name: 'Translate',
-      component: TranslateComponent
+      component: TranslateComponent,
+      meta: { requiresAuth: true }
     },
     {
       path: '/solr',
       name: 'Solr',
-      component: SolrComponent
+      component: SolrComponent,
+      meta: { requiresAuth: true }
     },
-  ]
+    {
+      path: '/login',
+      name: 'Login',
+      component: AuthComponent
+    },
+  ],
+
+  data: function() {
+    return { user: {} };
+  },
+
+  computed: {
+      auth: function() {
+          return Auth;
+      }
+  },
+
+  methods: {
+    checkLocalStorage: function() {
+        if (localStorage.user) {
+            this.user = JSON.parse(localStorage.user);
+            Vue.http.headers.common['Authorization'] = 'Bearer ' + this.user.api_token;
+            Auth.authenticated = true;
+        }
+    },
+    logout: function() {
+        this.user = {};
+        Auth.logout();
+    }
+  },
+
+  ready: function() {
+      this.checkLocalStorage();
+  }
 })

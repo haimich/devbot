@@ -11,14 +11,20 @@ import router from '@/router'
 import App from './App'
 import SolrWidget from '@/widgets/SolrWidget'
 import SocialCrawlerStatsWidget from '@/widgets/SocialCrawlerStatsWidget'
+import Auth from './services/auth.js';
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, { locale });
 Vue.use(VueHighlightJS);
 
-Vue.component('solr-widget', SolrWidget);
-Vue.component('socialcrawler-widget', SocialCrawlerStatsWidget);
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && ! Auth.authenticated) {
+        next('/login');
+    } else {
+        next();
+    }
+})
 
 new Vue({
   el: '#app',

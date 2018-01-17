@@ -12,13 +12,13 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/backend': {
-        target: 'http://devbot.mpm-dev.intern.ebroot.de',
+        target: 'http://localhost',
         changeOrigin: true,
       },
     },
 
     // Various Dev Server settings
-    host: 'mpm-dev.intern.ebroot.de', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8086, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
