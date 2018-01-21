@@ -7,7 +7,6 @@
         :show-close="false"
         width="30%"
         class="login-dialog"
-        :before-close="handleClose"
     >
 
     <el-row style="margin-bottom: 15px;">
@@ -16,7 +15,7 @@
               v-model="login.username"
               placeholder="Username"
             >
-              <template slot="append"><i class="el-icon-success"></i></template>
+              <template slot="append"><i class="far fa-user"></i></template>
             </el-input>
         </el-col>
     </el-row>
@@ -28,13 +27,13 @@
               v-model="login.password"
               placeholder="Password"
             >
-              <template slot="append"><i class="el-icon-goods"></i></template>
+              <template slot="append"><i class="fas fa-key"></i></template>
             </el-input>
         </el-col>
     </el-row>
 
     <span slot="footer" class="dialog-footer">
-        <el-button type="primary" style="width: 130px" @click="login">Login</el-button>
+        <el-button type="primary" style="width: 130px" @click="handleLogin">Login</el-button>
     </span>
 
   </el-dialog>
@@ -54,7 +53,7 @@ export default {
   },
 
   methods: {
-    login() {
+    handleLogin() {
       console.log('login');
     }
   }
