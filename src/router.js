@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ConvertComponent from '@/components/ConvertComponent'
 import ResendComponent from '@/components/ResendComponent'
+import EditorComponent from '@/components/EditorComponent'
 import TranslateComponent from '@/components/TranslateComponent'
 import SolrComponent from '@/components/SolrComponent'
 import AuthComponent from '@/components/AuthComponent'
@@ -26,6 +27,12 @@ export default new Router({
       path: '/resend',
       name: 'Resend',
       component: ResendComponent,
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/editor',
+      name: 'Editor',
+      component: EditorComponent,
       meta: { requiresAuth: false }
     },
     {

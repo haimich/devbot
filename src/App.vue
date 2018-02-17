@@ -15,6 +15,7 @@
         <el-menu default-active="solr" :router="true" mode="horizontal">
           <el-menu-item index="solr" :route="{name:'Solr'}">Solr</el-menu-item>
           <el-menu-item index="convert" :route="{name:'Convert'}">Convert</el-menu-item>
+          <el-menu-item index="editor" :route="{name:'Editor'}">Editor</el-menu-item>
           <el-menu-item index="translate" :route="{name:'Translate'}">Translate</el-menu-item>
           <el-menu-item index="resend" :route="{name:'Resend'}">Resend</el-menu-item>
         </el-menu>
