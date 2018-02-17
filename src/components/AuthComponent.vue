@@ -16,7 +16,7 @@
               v-model="login.username"
               placeholder="Username"
             >
-              <template slot="append"><i class="el-icon-success"></i></template>
+              <template slot="append"><i class="fab fa-accessible-icon"></i></template>
             </el-input>
         </el-col>
     </el-row>
@@ -28,7 +28,7 @@
               v-model="login.password"
               placeholder="Password"
             >
-              <template slot="append"><i class="el-icon-goods"></i></template>
+              <template slot="append"><i class="fas fa-ambulance"></i></template>
             </el-input>
         </el-col>
     </el-row>

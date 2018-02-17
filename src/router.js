@@ -14,31 +14,31 @@ export default new Router({
     {
       path: '*',
       redirect: '/convert',
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/convert',
       name: 'Convert',
       component: ConvertComponent,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/resend',
       name: 'Resend',
       component: ResendComponent,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/translate',
       name: 'Translate',
       component: TranslateComponent,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/solr',
       name: 'Solr',
       component: SolrComponent,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/login',
