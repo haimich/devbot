@@ -1,7 +1,7 @@
 <template>
 
 <el-tabs
-    v-model="editableTabsValue"
+    v-model="activeTab"
     type="card"
     editable
     @edit="handleTabsEdit"
@@ -12,7 +12,7 @@
     :label="item.title"
     :name="item.name"
   >
-    {{item.content}}
+    <div ref="jsoneditor"></div>
   </el-tab-pane>
 </el-tabs>
 
@@ -20,52 +20,73 @@
 
 <script>
 
+import JSONEditor from 'jsoneditor'
+
 export default {
     name: 'Editor',
 
     data() {
       return {
-        editableTabsValue: '2',
-        editableTabs: [{
-          title: 'Tab 1',
-          name: '1',
-          content: 'Tab 1 content'
-        }, {
-          title: 'Tab 2',
-          name: '2',
-          content: 'Tab 2 content'
-        }],
-        tabIndex: 2
+        activeTab: '',
+        editableTabs: [],
+        editors: {},
+      }
+    },
+
+    mounted() {
+      this.handleTabsEdit(null, 'add');
+    },
+
+    updated() {
+      var containers = this.$refs.jsoneditor;
+
+      for (let i = 0; i < containers.length; i++) {
+        if (this.editors[i] != null) {
+          // editor already initialized for this tab
+          continue;
+        }
+
+        let container = containers[i];
+        var options = {
+          mode: 'code',
+        };
+        this.editors[i] = new JSONEditor(container, options);
       }
     },
 
     methods: {
-      handleTabsEdit(targetName, action) {
+      handleTabsEdit(targetTab, action) {
         if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
+          let newTabName = this.editableTabs.length + '';
+
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
-            content: 'New Tab content'
           });
-          this.editableTabsValue = newTabName;
+
+          this.activeTab = newTabName;
         }
+
         if (action === 'remove') {
           let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
-          if (activeName === targetName) {
+          let activeTab = this.activeTab;
+          
+          if (activeTab === targetTab) {
             tabs.forEach((tab, index) => {
-              if (tab.name === targetName) {
+              if (tab.name === targetTab) {
                 let nextTab = tabs[index + 1] || tabs[index - 1];
                 if (nextTab) {
-                  activeName = nextTab.name;
+                  activeTab = nextTab.name;
                 }
               }
             });
           }
           
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+          this.activeTab = activeTab;
+          this.editableTabs = tabs.filter(tab => tab.name !== targetTab);
+
+          // remove json editor
+          delete this.editors[targetTab];
         }
       }
     }

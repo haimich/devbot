@@ -6,6 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/atom-one-light.css'
+import 'jsoneditor/dist/jsoneditor.min.css'
 
 import router from '@/router'
 import App from './App'
