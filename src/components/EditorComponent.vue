@@ -12,7 +12,7 @@
     :label="item.title"
     :name="item.name"
   >
-    <div ref="jsoneditor"></div>
+    <v-jsoneditor :options="options"></v-jsoneditor>
   </el-tab-pane>
 </el-tabs>
 
@@ -20,41 +20,26 @@
 
 <script>
 
-import JSONEditor from 'jsoneditor'
 
 export default {
     name: 'Editor',
 
     data() {
       return {
-        activeTab: '',
-        editableTabs: [],
-        editors: {},
-      }
-    },
-
-    mounted() {
-      this.handleTabsEdit(null, 'add');
-    },
-
-    updated() {
-      var containers = this.$refs.jsoneditor;
-
-      for (let i = 0; i < containers.length; i++) {
-        if (this.editors[i] != null) {
-          // editor already initialized for this tab
-          continue;
+        activeTab: '0',
+        editableTabs: [{
+            title: 'New Tab',
+            name: '0',
+        }],
+        options: {
+          mode: "code",
+          modes: ["code", "form"]
         }
-
-        let container = containers[i];
-        var options = {
-          mode: 'code',
-        };
-        this.editors[i] = new JSONEditor(container, options);
       }
     },
 
     methods: {
+
       handleTabsEdit(targetTab, action) {
         if (action === 'add') {
           let newTabName = this.editableTabs.length + '';
@@ -84,9 +69,6 @@ export default {
           
           this.activeTab = activeTab;
           this.editableTabs = tabs.filter(tab => tab.name !== targetTab);
-
-          // remove json editor
-          delete this.editors[targetTab];
         }
       }
     }

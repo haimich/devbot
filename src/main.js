@@ -7,6 +7,7 @@ import locale from 'element-ui/lib/locale/lang/en'
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/atom-one-light.css'
 import 'jsoneditor/dist/jsoneditor.min.css'
+import VJsoneditor from 'vue-jsoneditor';
 
 import router from '@/router'
 import App from './App'
@@ -18,6 +19,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI, { locale });
 Vue.use(VueHighlightJS);
+Vue.use(VJsoneditor);
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && ! Auth.authenticated) {
