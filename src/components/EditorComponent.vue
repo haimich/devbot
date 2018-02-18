@@ -1,7 +1,7 @@
 <template>
 
 <el-tabs
-    v-model="activeTab"
+    v-model="editableTabsValue"
     type="border-card"
     editable
     @edit="handleTabsEdit"
@@ -26,11 +26,13 @@ export default {
 
     data() {
       return {
-        activeTab: '0',
+        editableTabsValue: '1',
         editableTabs: [{
-            title: 'New Tab',
-            name: '0',
-        }],
+          title: 'Tab 1',
+          name: '1',
+          content: 'Tab 1 content'
+        },],
+        tabIndex: 1,
         options: {
           mode: "code",
           modes: ["code", "form"]
@@ -40,35 +42,32 @@ export default {
 
     methods: {
 
-      handleTabsEdit(targetTab, action) {
+      handleTabsEdit(targetName, action) {
         if (action === 'add') {
-          let newTabName = this.editableTabs.length + '';
-
+          let newTabName = ++this.tabIndex + '';
           this.editableTabs.push({
             title: 'New Tab',
             name: newTabName,
+            content: 'New Tab content'
           });
-
-          this.activeTab = newTabName;
+          this.editableTabsValue = newTabName;
         }
-
         if (action === 'remove') {
           let tabs = this.editableTabs;
-          let activeTab = this.activeTab;
-          
-          if (activeTab === targetTab) {
+          let activeName = this.editableTabsValue;
+          if (activeName === targetName) {
             tabs.forEach((tab, index) => {
-              if (tab.name === targetTab) {
+              if (tab.name === targetName) {
                 let nextTab = tabs[index + 1] || tabs[index - 1];
                 if (nextTab) {
-                  activeTab = nextTab.name;
+                  activeName = nextTab.name;
                 }
               }
             });
           }
           
-          this.activeTab = activeTab;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetTab);
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
         }
       }
     }
