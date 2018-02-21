@@ -32,8 +32,10 @@
       </el-col>
     </el-row>
 
-    <el-row>
-      <el-col :span="style.span" :offset="style.offset">&nbsp;</el-col>
+    <el-row style="margin-top: 25px">
+      <el-col :span="style.span" :offset="style.offset">
+        <convert-widget />
+      </el-col>
     </el-row>
 
   </div>

@@ -12,6 +12,7 @@ import VJsoneditor from 'vue-jsoneditor';
 import router from '@/router'
 import App from './App'
 import SolrWidget from '@/widgets/SolrWidget'
+import ConvertWidget from '@/widgets/ConvertWidget'
 import SocialCrawlerStatsWidget from '@/widgets/SocialCrawlerStatsWidget'
 import Auth from './services/auth.js';
 
@@ -20,6 +21,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, { locale });
 Vue.use(VueHighlightJS);
 Vue.use(VJsoneditor);
+
+Vue.component("convert-widget", ConvertWidget);
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && ! Auth.authenticated) {
