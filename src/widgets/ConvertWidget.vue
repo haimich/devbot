@@ -2,12 +2,12 @@
 
     <el-card class="box-card" style="min-height: 250px;">
         <div slot="header" class="clearfix">
-            <span>Convert</span>
+            <span>Quick Convert</span>
         </div>
 
         <div class="text item">
           <el-collapse v-model="activeName" accordion>
-            <el-collapse-item title="Epoch" name="epoch">
+            <el-collapse-item title="Timestamp" name="epoch">
               <el-input
                   class="timestamp-input"
                   size="medium"
@@ -40,15 +40,20 @@
               </div>
             </el-collapse-item>
 
-            <el-collapse-item title="Url encode" name="urlencode">
+            <el-collapse-item title="URL" name="urldecode">
               <el-input
                   class="timestamp-input"
-                  v-model="timestamp.userInput"
-                  @input="convertTimestamp"
+                  size="medium"
+                  v-model="decode.userInput"
+                  @input="decodeText"
                   clearable
                   placeholder="key=the%20value"
               ></el-input>
-              {{timestamp.calculated}}
+
+              <!-- Decode results -->
+              <div class="results-area" v-if="decode.calculated != null">
+                {{decode.calculated}}
+              </div>
             </el-collapse-item>
           </el-collapse>
         </div>
@@ -75,6 +80,10 @@
             userInput: null,
             calculated: null,
           },
+          decode: {
+            userInput: null,
+            calculated: null,
+          },
       }
     },
 
@@ -87,6 +96,11 @@
       'hashId.userInput': function() {
           if (this.hashId.userInput == null || this.hashId.userInput === "") {
             this.hashId.calculated = null;
+          }
+      },
+      'decode.userInput': function() {
+          if (this.decode.userInput == null || this.decode.userInput === "") {
+            this.decode.calculated = null;
           }
       },
     },
@@ -130,6 +144,14 @@
           .catch(err => console.log('oops todo', err));
       },
 
+      decodeText() {
+        if (this.decode.userInput == null || this.decode.userInput === '') {
+          return;
+        }
+
+        this.decode.calculated = decodeURIComponent(this.decode.userInput);
+      },
+
     },
 
   }
@@ -162,5 +184,6 @@
     margin-top: 10px;
     margin-bottom: -10px;
     margin-left: 5px;
+    word-wrap: break-word;
   }
 </style>
