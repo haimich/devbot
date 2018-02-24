@@ -27,11 +27,17 @@
             <el-collapse-item title="HashId" name="hashid">
               <el-input
                   class="timestamp-input"
-                  v-model="timestamp.userInput"
-                  @input="convertTimestamp"
+                  size="medium"
+                  v-model="hashId.userInput"
+                  @input="convertHashId"
+                  clearable
                   placeholder="MWm37zy6mV"
               ></el-input>
-              {{timestamp.calculated}}
+
+              <!-- HashId results -->
+              <div class="results-area" v-if="hashId.calculated != null">
+                {{hashId.calculated}}
+              </div>
             </el-collapse-item>
 
             <el-collapse-item title="Url encode" name="urlencode">
@@ -39,6 +45,7 @@
                   class="timestamp-input"
                   v-model="timestamp.userInput"
                   @input="convertTimestamp"
+                  clearable
                   placeholder="key=the%20value"
               ></el-input>
               {{timestamp.calculated}}
@@ -52,6 +59,7 @@
 <script>
 
   import ConvertService from '@/services/ConvertService';
+  import HashIdService from '@/services/HashIdService';
 
   export default {
 
@@ -62,7 +70,11 @@
           timestamp: {
             userInput: null,
             calculated: null,
-          }
+          },
+          hashId: {
+            userInput: null,
+            calculated: null,
+          },
       }
     },
 
@@ -71,10 +83,16 @@
           if (this.timestamp.userInput == null || this.timestamp.userInput === "") {
             this.timestamp.calculated = null;
           }
-      }
+      },
+      'hashId.userInput': function() {
+          if (this.hashId.userInput == null || this.hashId.userInput === "") {
+            this.hashId.calculated = null;
+          }
+      },
     },
 
     methods: {
+
       convertTimestamp() {
         if (this.timestamp.userInput == null || this.timestamp.userInput === '') {
           return;
@@ -96,7 +114,22 @@
             type: "warning",
           });
         }
-      }
+      },
+
+      convertHashId() {
+        if (this.hashId.userInput == null || this.hashId.userInput === '') {
+          return;
+        }
+
+        this.hashId.calculated = null;
+
+        HashIdService.get(this.hashId.userInput, false)
+          .then(id => {
+            this.hashId.calculated = id;
+          })
+          .catch(err => console.log('oops todo', err));
+      },
+
     },
 
   }
