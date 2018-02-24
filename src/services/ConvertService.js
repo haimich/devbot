@@ -2,46 +2,46 @@ import moment from 'moment-timezone';
 
 export default {
 
-  convertTimestamp(value) {
+  convertTimestamp(timestamp) {
+      timestamp = ('' + timestamp).replace(/\s+/g, '');
+      timestamp = parseInt(timestamp);
+
+      if (isNaN(timestamp)) {
+        throw new Error("Is not a number: " + timestamp);
+      }
+
       var response = {};
       var momentObj = null;
 
-      if (value >= 100000000000000 || value <= -100000000000000) {
+      if (timestamp >= 100000000000000 || timestamp <= -100000000000000) {
         response.type = "microseconds";
-        momentObj = moment(value / 1000);
-      } else if (value >= 100000000000 || value <= -100000000000) {
+        momentObj = moment(timestamp / 1000);
+      } else if (timestamp >= 100000000000 || timestamp <= -100000000000) {
         response.type = "milliseconds";
-        momentObj = moment(value);
+        momentObj = moment(timestamp);
       } else {
         response.type = "seconds";
-        momentObj = moment(value * 1000);
+        momentObj = moment(timestamp * 1000);
       }
       
       if (! momentObj.isValid()) {
-        throw new Error("Is not valid: " + value);
-        // this.$notify({
-        //   message: "Is not valid: " + value,
-        //   type: "warning",
-        // });
-        // return;
+        throw new Error("Is not valid: " + timestamp);
       }
 
       const gmt = momentObj.clone().tz("gmt")
       const cet = momentObj.clone().tz("cet")
 
-      response.tableData = [{
-          key: 1,
-          date: gmt.format("YYYY dddd, MMMM Do"),
-          time: gmt.format("HH:mm:ss"),
-          timezone: 'GMT'
-        }, {
-          key: 2,
-          date: cet.format("YYYY dddd, MMMM Do"),
-          time: cet.format("HH:mm:ss"),
-          timezone: 'CET'
-      }];
+      response.gmt = {
+        date: gmt.format("DD.MM.YYYY"),
+        time: gmt.format("HH:mm:ss"),
+      };
 
-      return responsse;
+      response.cet = {
+        date: cet.format("DD.MM.YYYY"),
+        time: cet.format("HH:mm:ss"),
+      }
+
+      return response;
   }
 
 }

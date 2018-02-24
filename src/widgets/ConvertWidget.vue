@@ -10,11 +10,18 @@
             <el-collapse-item title="Epoch" name="epoch">
               <el-input
                   class="timestamp-input"
+                  size="medium"
                   v-model="timestamp.userInput"
                   @input="convertTimestamp"
+                  clearable
                   placeholder="1512816794"
               ></el-input>
-              {{timestamp.calculated}}
+
+              <!-- Epoch results -->
+              <div class="results-area" v-if="timestamp.calculated != null">
+                <div>{{timestamp.calculated.gmt.date}} - {{timestamp.calculated.gmt.time}} Uhr (GMT)</div>
+                <div>{{timestamp.calculated.cet.date}} - {{timestamp.calculated.cet.time}} Uhr (CET)</div>
+              </div>
             </el-collapse-item>
 
             <el-collapse-item title="HashId" name="hashid">
@@ -22,7 +29,7 @@
                   class="timestamp-input"
                   v-model="timestamp.userInput"
                   @input="convertTimestamp"
-                  placeholder="L2S212SX"
+                  placeholder="MWm37zy6mV"
               ></el-input>
               {{timestamp.calculated}}
             </el-collapse-item>
@@ -59,9 +66,36 @@
       }
     },
 
+    watch: {
+      'timestamp.userInput': function() {
+          if (this.timestamp.userInput == null || this.timestamp.userInput === "") {
+            this.timestamp.calculated = null;
+          }
+      }
+    },
+
     methods: {
       convertTimestamp() {
-        this.timestamp.calculated = ""
+        if (this.timestamp.userInput == null || this.timestamp.userInput === '') {
+          return;
+        }
+
+        this.timestamp.calculated = null;
+
+        try {
+          let response = ConvertService.convertTimestamp(this.timestamp.userInput);
+          
+          this.timestamp.calculated = {
+            type: response.type,
+            gmt: response.gmt,
+            cet: response.cet,
+          };
+        } catch (error) {
+          this.$notify({
+            message: error.message,
+            type: "warning",
+          });
+        }
       }
     },
 
@@ -89,5 +123,11 @@
 
   .box-card {
     width: 280px;
+  }
+
+  .results-area {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    margin-left: 5px;
   }
 </style>
